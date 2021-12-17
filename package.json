@@ -24,7 +24,9 @@
     "fastify": "^3.25.0",
     "fastify-swagger": "^4.12.6",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.1.2"
+    "mongoose": "^6.1.2",
+    "nodemailer": "^6.7.2",
+    "util": "^0.12.4"
   },
   "devDependencies": {
     "morgan": "^1.10.0",

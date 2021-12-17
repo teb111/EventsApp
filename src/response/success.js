@@ -1,5 +1,5 @@
-export const successResponse = (res, message, statusCode = 200) => {
-  res.status(statusCode).json({
+const successResponse = (res, message, statusCode = 200) => {
+  res.code(statusCode).send({
     success: true,
     response: {
       statusCode,
@@ -7,3 +7,5 @@ export const successResponse = (res, message, statusCode = 200) => {
     },
   });
 };
+
+module.exports = successResponse;
