@@ -10,8 +10,18 @@ const userController = (serviceContainer) => {
     }
   };
 
+  const loginUser = async (req, res) => {
+    try {
+      const result = await serviceContainer.userService.authUser(req, res);
+      return result;
+    } catch (error) {
+      return errorResponse(res, error.message, 500, error);
+    }
+  };
+
   return {
     registerUser,
+    loginUser,
   };
 };
 

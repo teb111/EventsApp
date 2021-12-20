@@ -1,5 +1,4 @@
 const errorResponse = require("../response/error.js");
-const successResponse = require("../response/success.js");
 const validateEmail = require("../utils/validateMail.js");
 const UserRepository = require("../repositories/userRepository.js");
 
@@ -19,12 +18,22 @@ const userService = () => {
         return user;
       }
     } catch (error) {
-      errorResponse(res, "Something went Wrong", 500, error);
+      return errorResponse(res, "Something went Wrong", 500, error);
+    }
+  };
+
+  const authUser = async (req, res) => {
+    try {
+      const result = await UserRepository.userLogin(req, res);
+      return result;
+    } catch (error) {
+      return errorResponse(res, "Something went Wrong", 500, error);
     }
   };
 
   return {
     addUser,
+    authUser,
   };
 };
 

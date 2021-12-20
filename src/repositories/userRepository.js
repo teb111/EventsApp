@@ -37,8 +37,32 @@ const userRepository = () => {
     }
   };
 
+  const userLogin = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+      const user = await User.findOne({ email });
+
+      // checking to see if the password the user entered correlates with the one in the database with our method from userModel
+      if (user && (await user.matchPassword(password))) {
+        const result = {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          token: generateToken(user._id), // generating a token alongside the user's id
+        };
+        return successResponse(res, result, 200);
+      } else {
+        return errorResponse(res, "Check Login Credentials and Try Again", 404);
+      }
+    } catch (error) {
+      return errorResponse(res, "Something went Wrong", 500, error);
+    }
+  };
+
   return {
     createUser,
+    userLogin,
   };
 };
 
