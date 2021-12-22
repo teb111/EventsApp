@@ -6,7 +6,7 @@ const userController = (serviceContainer) => {
       const result = await serviceContainer.userService.addUser(req, res);
       return result;
     } catch (error) {
-      return errorResponse(res, error.message, 500, error);
+      return errorResponse(res, error.message, error);
     }
   };
 
@@ -15,13 +15,36 @@ const userController = (serviceContainer) => {
       const result = await serviceContainer.userService.authUser(req, res);
       return result;
     } catch (error) {
-      return errorResponse(res, error.message, 500, error);
+      return errorResponse(res, error.message, error);
+    }
+  };
+
+  const getPasswordResetLink = async (req, res) => {
+    try {
+      const result = await serviceContainer.userService.passwordResetLink(
+        req,
+        res
+      );
+      return result;
+    } catch (error) {
+      return errorResponse(res, error.message, error);
+    }
+  };
+
+  const resetUserPassword = async (req, res) => {
+    try {
+      const result = await serviceContainer.userService.resetPassword(req, res);
+      return result;
+    } catch (error) {
+      return errorResponse(res, error.message, error);
     }
   };
 
   return {
     registerUser,
     loginUser,
+    getPasswordResetLink,
+    resetUserPassword,
   };
 };
 

@@ -44,8 +44,8 @@ const userLoginOpts = {
       type: "object",
       required: ["email", "password"],
       properties: {
-        name: { type: "string" },
         email: { type: "string" },
+        password: { type: "string" },
       },
     },
     response: {
@@ -55,4 +55,45 @@ const userLoginOpts = {
   handler: (req, res) => UserControllerHandler.loginUser(req, res),
 };
 
-module.exports = { userRegisterOpts, userLoginOpts };
+// get password Reset Link
+
+const userPasswordLink = {
+  schema: {
+    body: {
+      type: "object",
+      required: ["email"],
+      properties: {
+        email: { type: "string" },
+      },
+    },
+    response: {
+      200: userResponse,
+    },
+  },
+
+  handler: (req, res) => UserControllerHandler.getPasswordResetLink(req, res),
+};
+
+// User Reset Password options
+const userResetPasswordOpts = {
+  schema: {
+    body: {
+      type: "object",
+      properties: {
+        password: { type: "string" },
+      },
+    },
+    response: {
+      200: userResponse,
+    },
+  },
+
+  handler: (req, res) => UserControllerHandler.resetUserPassword(req, res),
+};
+
+module.exports = {
+  userRegisterOpts,
+  userLoginOpts,
+  userResetPasswordOpts,
+  userPasswordLink,
+};
