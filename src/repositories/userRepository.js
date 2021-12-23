@@ -34,7 +34,7 @@ const userRepository = () => {
         return successResponse(res, createdUser, 201);
       }
     } catch (error) {
-      return errorResponse(res, "Invalid User Data", 400, error);
+      return errorResponse(res, error);
     }
   };
 
@@ -57,7 +57,7 @@ const userRepository = () => {
         return errorResponse(res, "Check Login Credentials and Try Again", 404);
       }
     } catch (error) {
-      return errorResponse(res, "Something went Wrong", 500, error);
+      return errorResponse(res, error);
     }
   };
 
@@ -87,7 +87,7 @@ const userRepository = () => {
         );
       }
     } catch (error) {
-      return errorResponse(res, "Something went Wrong", 500, error);
+      return errorResponse(res, error);
     }
   };
 
@@ -113,7 +113,7 @@ const userRepository = () => {
         return errorResponse(res, "User Not Found", 404);
       }
     } catch (error) {
-      return errorResponse(res, "Something went wrong", 500);
+      return errorResponse(res, error);
     }
   };
 

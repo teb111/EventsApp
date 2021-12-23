@@ -21,7 +21,7 @@ const userService = () => {
         return user;
       }
     } catch (error) {
-      return errorResponse(res, "Something went Wrong", 500, error);
+      return errorResponse(res, error);
     }
   };
 
@@ -30,7 +30,7 @@ const userService = () => {
       const result = await UserRepository.userLogin(req, res);
       return result;
     } catch (error) {
-      return errorResponse(res, "Something went Wrong", 500, error);
+      return errorResponse(res, error);
     }
   };
 
@@ -43,7 +43,7 @@ const userService = () => {
       const result = await UserRepository.sendPasswordLink(req, res);
       return result;
     } catch (error) {
-      return errorResponse(res, "Something went Wrong", 500, error);
+      return errorResponse(res, error);
     }
   };
 
@@ -63,7 +63,7 @@ const userService = () => {
         // return successResponse(res, "Token Good", 200);
       }
     } catch (error) {
-      return errorResponse(res, "Token Expired, Please Try again", 500, error);
+      return errorResponse(res, error);
     }
   };
 
