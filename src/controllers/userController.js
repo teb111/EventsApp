@@ -6,7 +6,7 @@ const userController = (serviceContainer) => {
       const result = await serviceContainer.userService.addUser(req, res);
       return result;
     } catch (error) {
-      return errorResponse(res, error.message, error);
+      return errorResponse(res, error);
     }
   };
 
@@ -15,7 +15,7 @@ const userController = (serviceContainer) => {
       const result = await serviceContainer.userService.authUser(req, res);
       return result;
     } catch (error) {
-      return errorResponse(res, error.message, error);
+      return errorResponse(res, error);
     }
   };
 
@@ -27,7 +27,7 @@ const userController = (serviceContainer) => {
       );
       return result;
     } catch (error) {
-      return errorResponse(res, error.message, error);
+      return errorResponse(res, error);
     }
   };
 
@@ -36,7 +36,7 @@ const userController = (serviceContainer) => {
       const result = await serviceContainer.userService.resetPassword(req, res);
       return result;
     } catch (error) {
-      return errorResponse(res, error.message, error);
+      return errorResponse(res, error);
     }
   };
 
