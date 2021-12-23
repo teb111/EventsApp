@@ -19,7 +19,7 @@ const ReviewSchema = new mongoose.Schema(
       required: true,
       ref: "Event",
     },
-    status: { type: String, required: true },
+    status: { type: String, required: true, default: "active" },
   },
   {
     timestamps: true,

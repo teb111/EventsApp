@@ -1,4 +1,4 @@
-const fastify = require("fastify")({ logger: true });
+const fastify = require("fastify")({ logger: true, maxParamLength: 500 });
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const connectDB = require("./src/config/db.js");
