@@ -19,6 +19,7 @@ fastify.register(require("fastify-swagger"), {
 
 // routes
 fastify.register(require("./src/routes/userRoutes.js"));
+fastify.register(require("./src/routes/eventRoutes.js"));
 
 const PORT = process.env.PORT;
 const start = async () => {
