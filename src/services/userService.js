@@ -1,5 +1,5 @@
 const errorResponse = require("../response/error.js");
-const validateEmail = require("../utils/validateMail.js");
+const validateEmail = require("../mails/validateMail.js");
 const UserRepository = require("../repositories/userRepository.js");
 const jwt = require("jsonwebtoken");
 const util = require("util");

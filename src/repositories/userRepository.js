@@ -2,8 +2,8 @@ const User = require("../models/User.js");
 const errorResponse = require("../response/error.js");
 const successResponse = require("../response/success.js");
 const generateToken = require("../utils/generateToken.js");
-const sendMail = require("../utils/mail.js");
-const passwordResetMail = require("../utils/passwordResetMail.js");
+const sendMail = require("../mails/mail.js");
+const passwordResetMail = require("../mails/passwordResetMail.js");
 
 const userRepository = () => {
   const createUser = async (req, res) => {
@@ -117,11 +117,22 @@ const userRepository = () => {
     }
   };
 
+  const getUsernameById = async (id) => {
+    const user = await User.findOne({ _id: id });
+    if (user) {
+      const info = { userName: user.name, email: user.email };
+      return info;
+    } else {
+      throw new Error("User Not Found");
+    }
+  };
+
   return {
     createUser,
     userLogin,
     sendPasswordLink,
     passwordReset,
+    getUsernameById,
   };
 };
 
