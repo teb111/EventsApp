@@ -1,7 +1,3 @@
-const ServiceContainer = require("../services");
-const EventController = require("../controllers/eventController");
-const EventControllerHandler = EventController(ServiceContainer);
-
 const eventResponse = {
   type: "object",
   properties: {
@@ -53,7 +49,13 @@ const createEventOpts = {
       201: eventResponse,
     },
   },
-  handler: (req, res) => EventControllerHandler.createEvent(req, res),
 };
 
-module.exports = { createEventOpts };
+const joinEventOpts = {
+  schema: {
+    body: { type: "object", properties: { passcode: { type: "string" } } },
+    response: { 201: eventResponse },
+  },
+};
+
+module.exports = { createEventOpts, joinEventOpts };

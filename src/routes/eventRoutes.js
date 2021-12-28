@@ -1,11 +1,23 @@
-const { createEventOpts } = require("../options/EventOptions");
+const ServiceContainer = require("../services");
+const EventController = require("../controllers/eventController");
+const EventControllerHandler = EventController(ServiceContainer);
+const protect = require("../middleware/authMiddleware");
+const { createEventOpts, joinEventOpts } = require("../options/EventOptions");
 
 function eventRoutes(fastify, options, done) {
-  done();
-
   // create an event
+  fastify.post(
+    "/api/event/new",
+    { schema: createEventOpts, preHandler: protect },
+    (req, res) => EventControllerHandler.createEvent(req, res)
+  );
 
-  fastify.post("/api/event/new", createEventOpts);
+  // Join an event
+  fastify.post(
+    "/api/event/:id/join",
+    { schema: joinEventOpts, preHandler: protect },
+    (req, res) => EventControllerHandler.joinEvent(req, res)
+  );
 
   done();
 }

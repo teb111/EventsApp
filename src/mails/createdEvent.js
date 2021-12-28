@@ -1,11 +1,9 @@
 var nodemailer = require("nodemailer");
 
 const sendMail = (event, info) => {
-  const { userId, title, geolocation, address, startTime, endTime } = event;
+  const { title, geolocation, address, startTime, endTime } = event;
 
   const { email, userName } = info;
-
-  console.log(email);
 
   var transport = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -42,7 +40,7 @@ const sendMail = (event, info) => {
   </style>
   
   
-  <p> Hello <span>${info.userName}</span>, You just created an event, Here is the summary of the event you just created </p>
+  <p> Hello <span>${userName}</span>, You just created an event, Here is the summary of the event you just created </p>
   
   <form>
     <div>

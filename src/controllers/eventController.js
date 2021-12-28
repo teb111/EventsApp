@@ -10,8 +10,18 @@ const eventController = (serviceContainer) => {
     }
   };
 
+  const joinEvent = async (req, res) => {
+    try {
+      const result = await serviceContainer.eventService.enterEvent(req, res);
+      return result;
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
   return {
     createEvent,
+    joinEvent,
   };
 };
 

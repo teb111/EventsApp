@@ -123,7 +123,7 @@ const userRepository = () => {
       const info = { userName: user.name, email: user.email };
       return info;
     } else {
-      throw new Error("User Not Found");
+      return errorResponse(res, "User Not Found");
     }
   };
 
