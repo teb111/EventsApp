@@ -8,13 +8,13 @@ const AttendeeSchema = new mongoose.Schema(
       ref: "User",
     },
 
-    EventId: {
+    eventId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "Event",
     },
     mode: { type: String, required: true },
-    status: { type: String, required: true },
+    status: { type: String, required: true, default: "active" },
   },
   {
     timestamps: true,
