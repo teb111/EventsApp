@@ -124,9 +124,23 @@ const EventRepository = () => {
     }
   };
 
+  const checkEvent = async (req, res) => {
+    try {
+      const event = await Event.findOne({
+        _id: req.params.id,
+        status: "active",
+      });
+
+      return event;
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
   return {
     createEvent,
     eventJoin,
+    checkEvent,
   };
 };
 

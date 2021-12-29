@@ -13,8 +13,8 @@ const ReviewSchema = new mongoose.Schema(
       required: true,
       ref: "User",
     },
-    Rating: { type: Number, required: true },
-    EventId: {
+    rating: { type: Number, required: true },
+    eventId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "Event",

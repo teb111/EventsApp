@@ -58,4 +58,18 @@ const joinEventOpts = {
   },
 };
 
-module.exports = { createEventOpts, joinEventOpts };
+const addImageOpts = {
+  schema: {
+    body: {
+      type: "object",
+      required: ["title", "image", "geolocation"],
+      properties: {
+        title: { type: "string" },
+        image: { type: "string" },
+        geolocation: { type: "string" },
+      },
+    },
+  },
+};
+
+module.exports = { createEventOpts, joinEventOpts, addImageOpts };
