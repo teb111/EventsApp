@@ -19,9 +19,29 @@ const eventController = (serviceContainer) => {
     }
   };
 
+  const addImage = async (req, res) => {
+    try {
+      const result = await serviceContainer.eventService.postImage(req, res);
+      return result;
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
+  const commentImage = async (req, res) => {
+    try {
+      const result = await serviceContainer.eventService.imageComment(req, res);
+      return result;
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
   return {
     createEvent,
     joinEvent,
+    addImage,
+    commentImage,
   };
 };
 
