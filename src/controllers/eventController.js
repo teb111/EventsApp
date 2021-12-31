@@ -37,11 +37,41 @@ const eventController = (serviceContainer) => {
     }
   };
 
+  const getImage = async (req, res) => {
+    try {
+      const result = await serviceContainer.eventService.imageFetch(req, res);
+      return result;
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
+  const getEvents = async (req, res) => {
+    try {
+      const result = await serviceContainer.eventService.eventFetch(req, res);
+      return result;
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
+  const addReaction = async (req, res) => {
+    try {
+      const result = await serviceContainer.eventService.imageReact(req, res);
+      return result;
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
   return {
     createEvent,
     joinEvent,
     addImage,
     commentImage,
+    getImage,
+    getEvents,
+    addReaction,
   };
 };
 

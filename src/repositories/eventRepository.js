@@ -137,10 +137,22 @@ const EventRepository = () => {
     }
   };
 
+  const getAllEvents = async (req, res) => {
+    let events = [];
+    try {
+      const event = await Event.find({ isPublic: true, status: "active" });
+      events.push(...event);
+      return events;
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
   return {
     createEvent,
     eventJoin,
     checkEvent,
+    getAllEvents,
   };
 };
 

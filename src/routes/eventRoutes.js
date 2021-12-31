@@ -37,6 +37,23 @@ function eventRoutes(fastify, options, done) {
     (req, res) => EventControllerHandler.commentImage(req, res)
   );
 
+  // get image in an event with it's comment
+  fastify.get("/api/event/:id/:imageId", { preHandler: protect }, (req, res) =>
+    EventControllerHandler.getImage(req, res)
+  );
+
+  //get all Public events
+  fastify.get("/api/event", (req, res) =>
+    EventControllerHandler.getEvents(req, res)
+  );
+
+  // add Reaction to an Image
+  fastify.post(
+    "/api/event/:id/:imageId/react",
+    { preHandler: protect },
+    (req, res) => EventControllerHandler.addReaction(req, res)
+  );
+
   done();
 }
 

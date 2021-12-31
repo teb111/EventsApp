@@ -20,8 +20,27 @@ const ReviewRepository = () => {
     }
   };
 
+  const getImageReviews = async (req, res) => {
+    let review = [];
+    try {
+      const getReviews = await Review.find({
+        eventId: req.params.id,
+        imageId: req.params.imageId,
+      });
+      if (getReviews.length > 1) {
+        review.push(...getReviews);
+      } else {
+        return getReviews;
+      }
+      return review;
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
   return {
     addReview,
+    getImageReviews,
   };
 };
 

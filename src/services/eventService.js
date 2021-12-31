@@ -6,6 +6,7 @@ const ImageRepository = require("../repositories/ImageRepository.js");
 const { isEmpty } = require("../utils/validator.js");
 const successResponse = require("../response/success.js");
 const ReviewRepository = require("../repositories/ReviewRepository.js");
+const ReactionRepository = require("../repositories/ReactionRepository.js");
 
 const eventService = () => {
   const newEvent = async (req, res) => {
@@ -92,11 +93,55 @@ const eventService = () => {
     }
   };
 
+  const imageFetch = async (req, res) => {
+    try {
+      // check if event exist and still onGoing
+      const event = await EventRepository.checkEvent(req, res);
+      if (event) {
+        const attendee = await AttendeeRepository.checkAttendee(req, res);
+        if (attendee) {
+          const comments = await ReviewRepository.getImageReviews(req, res);
+          return comments;
+        } else {
+          return errorResponse(
+            res,
+            "Sorry, You do not have access to the event"
+          );
+        }
+      } else {
+        return errorResponse(res, "This event is no longer active");
+      }
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
+  const eventFetch = async (req, res) => {
+    try {
+      const events = await EventRepository.getAllEvents(req, res);
+      return events;
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
+  const imageReact = async (req, res) => {
+    try {
+      const reaction = await ReactionRepository.reactionAdd(req, res);
+      return reaction;
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
   return {
     newEvent,
     enterEvent,
     postImage,
     imageComment,
+    imageFetch,
+    eventFetch,
+    imageReact,
   };
 };
 
