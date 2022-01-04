@@ -1,22 +1,21 @@
 const Image = require("../models/Image.js");
-const errorResponse = require("../response/error.js");
 
 const ImageRepository = () => {
-  const addImage = async (req, res) => {
+  const addImage = async (data) => {
     try {
-      const { title, image, geolocation } = req.body;
+      const { title, image, geolocation } = data;
       const newImage = new Image({
         title,
         image,
-        eventId: req.params.id,
-        userId: req.user._id,
+        eventId: data.eventId,
+        userId: data.userId,
         geolocation,
       });
 
       const createdImage = await newImage.save();
       return createdImage;
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 

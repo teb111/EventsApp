@@ -1,10 +1,37 @@
 const errorResponse = require("../response/error");
+const ResponseMsg = require("../response/message");
+const successResponse = require("../response/success");
+const { isEmpty } = require("../utils/validator");
 
 const userController = (serviceContainer) => {
   const registerUser = async (req, res) => {
     try {
-      const result = await serviceContainer.userService.addUser(req, res);
-      return result;
+      if (
+        typeof req.body !== null &&
+        req.body.hasOwnProperty("name") &&
+        req.body.hasOwnProperty("email") &&
+        req.body.hasOwnProperty("password")
+      ) {
+        const { name, email, password, image } = req.body;
+        if (
+          isEmpty(name) ||
+          isEmpty(email) ||
+          isEmpty(password) ||
+          isEmpty(image)
+        ) {
+          return errorResponse(res, ResponseMsg.ERROR.ERROR_MISSING_FIELD, 400);
+        } else {
+          const result = await serviceContainer.userService.addUser(
+            name,
+            email,
+            password,
+            image
+          );
+          return successResponse(res, result);
+        }
+      } else {
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
+      }
     } catch (error) {
       return errorResponse(res, error);
     }
@@ -12,8 +39,24 @@ const userController = (serviceContainer) => {
 
   const loginUser = async (req, res) => {
     try {
-      const result = await serviceContainer.userService.authUser(req, res);
-      return result;
+      if (
+        typeof req.body !== null &&
+        req.body.hasOwnProperty("email") &&
+        req.body.hasOwnProperty("password")
+      ) {
+        const { email, password } = req.body;
+        if (isEmpty(email) || isEmpty(password)) {
+          return errorResponse(res, Response.ERROR.ERROR_MISSING_FIELD, 400);
+        } else {
+          const result = await serviceContainer.userService.authUser(
+            email,
+            password
+          );
+          return successResponse(res, result);
+        }
+      } else {
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
+      }
     } catch (error) {
       return errorResponse(res, error);
     }
@@ -21,20 +64,46 @@ const userController = (serviceContainer) => {
 
   const getPasswordResetLink = async (req, res) => {
     try {
-      const result = await serviceContainer.userService.passwordResetLink(
-        req,
-        res
-      );
-      return result;
+      if (typeof req.body !== null && req.body.hasOwnProperty("email")) {
+        const { email } = req.body;
+        if (isEmpty(email)) {
+          return errorResponse(res, Response.ERROR.ERROR_MISSING_FIELD, 400);
+        } else {
+          const result = await serviceContainer.userService.passwordResetLink(
+            email
+          );
+          return successResponse(res, result);
+        }
+      } else {
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
+      }
     } catch (error) {
       return errorResponse(res, error);
     }
   };
 
   const resetUserPassword = async (req, res) => {
+    const data = { userId: req.params.id, userToken: req.params.token };
+
     try {
-      const result = await serviceContainer.userService.resetPassword(req, res);
-      return result;
+      if (typeof req.body !== null && req.body.hasOwnProperty("password")) {
+        const { password } = req.body;
+        if (
+          isEmpty(password) ||
+          isEmpty(data.userId) ||
+          isEmpty(data.userToken)
+        ) {
+          return errorResponse(res, Response.ERROR.ERROR_MISSING_FIELD, 400);
+        } else {
+          const result = await serviceContainer.userService.resetPassword(
+            password,
+            data
+          );
+          return successResponse(res, result);
+        }
+      } else {
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
+      }
     } catch (error) {
       return errorResponse(res, error);
     }

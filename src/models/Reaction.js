@@ -8,9 +8,9 @@ const ReactionSchema = new mongoose.Schema(
       ref: "Image",
     },
 
-    like: { type: Number, required: true },
-    dislike: { type: Number, required: true },
-    status: { type: String, required: true },
+    like: { type: Number },
+    dislike: { type: Number },
+    status: { type: String, required: true, default: "active" },
   },
   {
     timestamps: true,

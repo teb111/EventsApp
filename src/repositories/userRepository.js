@@ -1,18 +1,15 @@
 const User = require("../models/User.js");
-const errorResponse = require("../response/error.js");
-const successResponse = require("../response/success.js");
 const generateToken = require("../utils/generateToken.js");
 const sendMail = require("../mails/mail.js");
 const passwordResetMail = require("../mails/passwordResetMail.js");
+const ResponseMsg = require("../response/message.js");
 
 const userRepository = () => {
-  const createUser = async (req, res) => {
-    const { name, email, password, image } = req.body;
-
+  const createUser = async (name, email, password, image) => {
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-      return errorResponse(res, "User already Exists", 400);
+      throw new Error(ResponseMsg.ERROR.ERROR_USER_EXISTS);
     }
 
     try {
@@ -31,16 +28,14 @@ const userRepository = () => {
           token: generateToken(user._id), // generating a token alongside the user's id
         };
         sendMail(createdUser);
-        return successResponse(res, createdUser, 201);
+        return createdUser;
       }
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const userLogin = async (req, res) => {
-    const { email, password } = req.body;
-
+  const userLogin = async (email, password) => {
     try {
       const user = await User.findOne({ email });
 
@@ -52,18 +47,16 @@ const userRepository = () => {
           email: user.email,
           token: generateToken(user._id), // generating a token alongside the user's id
         };
-        return successResponse(res, result, 200);
+        return result;
       } else {
-        return errorResponse(res, "Check Login Credentials and Try Again", 404);
+        throw new Error(ResponseMsg.ERROR.ERROR_INVALID_LOGIN_CREDENTIALS);
       }
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const sendPasswordLink = async (req, res) => {
-    const { email } = req.body;
-
+  const sendPasswordLink = async (email) => {
     try {
       const user = await User.findOne({ email });
       if (user) {
@@ -74,27 +67,16 @@ const userRepository = () => {
           token: generateToken(user._id), // generating a token alongside the user's id
         };
         passwordResetMail(createdUser);
-        return successResponse(
-          res,
-          "A link has been sent to your Email to continue resetting your password",
-          200
-        );
+        return ResponseMsg.SUCCESS.SUCCESS_PASSWORD_RESET_LINK;
       } else {
-        return errorResponse(
-          res,
-          "No user was found with that email Address",
-          404
-        );
+        throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
       }
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const passwordReset = async (req, res) => {
-    const data = { userId: req.params.id };
-    const { password } = req.body;
-
+  const passwordReset = async (password, data) => {
     try {
       const user = await User.findOne({ _id: data.userId });
 
@@ -104,16 +86,12 @@ const userRepository = () => {
         }
         await user.save();
 
-        return successResponse(
-          res,
-          "Password was changed successfully, Please Log in",
-          200
-        );
+        return ResponseMsg.SUCCESS.SUCCESS_PASSWORD_CHANGED;
       } else {
-        return errorResponse(res, "User Not Found", 404);
+        throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
       }
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
@@ -123,7 +101,7 @@ const userRepository = () => {
       const info = { userName: user.name, email: user.email };
       return info;
     } else {
-      return errorResponse(res, "User Not Found");
+      throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
     }
   };
 
