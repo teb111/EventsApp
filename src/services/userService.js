@@ -6,9 +6,7 @@ const util = require("util");
 const jwtVerifyAsync = util.promisify(jwt.verify);
 
 const userService = () => {
-  const addUser = async (req, res) => {
-    const { name, email, password } = req.body;
-
+  const addUser = async (name, email, password, image) => {
     try {
       if (!validateEmail(email)) {
         errorResponse(res, "invalid Email Format");
@@ -17,53 +15,52 @@ const userService = () => {
       } else if (name.length < 3) {
         errorResponse(res, "Name can not be less than 3 characters");
       } else {
-        const user = await UserRepository.createUser(req, res);
+        const user = await UserRepository.createUser(
+          name,
+          email,
+          password,
+          image
+        );
         return user;
       }
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const authUser = async (req, res) => {
+  const authUser = async (email, password) => {
     try {
-      const result = await UserRepository.userLogin(req, res);
+      const result = await UserRepository.userLogin(email, password);
       return result;
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const passwordResetLink = async (req, res) => {
-    const { email } = req.body;
+  const passwordResetLink = async (email) => {
     try {
       if (!validateEmail(email)) {
-        return errorResponse(res, "invalid Email Format");
+        throw new Error("invalid Email Format");
       }
-      const result = await UserRepository.sendPasswordLink(req, res);
+      const result = await UserRepository.sendPasswordLink(email);
       return result;
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const resetPassword = async (req, res) => {
-    const data = { userToken: req.params.token };
+  const resetPassword = async (password, data) => {
     try {
       const checkToken = await jwtVerifyAsync(
         data.userToken,
         process.env.JWT_SECRET
       );
       if (checkToken) {
-        if (!req.body.password) {
-          return errorResponse(res, "password can not be empty", 400);
-        }
-        const result = await UserRepository.passwordReset(req, res);
+        const result = await UserRepository.passwordReset(password, data);
         return result;
-        // return successResponse(res, "Token Good", 200);
       }
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 

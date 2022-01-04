@@ -1,43 +1,35 @@
 const Reaction = require("../models/Reaction.js");
-const errorResponse = require("../response/error.js");
-const successResponse = require("../response/success.js");
 
 const ReactionRepository = () => {
-  const reactionAdd = async (req, res) => {
+  const reactionAdd = async (data) => {
     try {
       const checkImageReaction = await Reaction.findOne({
-        imageId: req.params.imageId,
+        imageId: data.imageId,
         status: "active",
       });
       if (checkImageReaction) {
-        if (typeof req.body !== null && req.body.hasOwnProperty("dislike")) {
+        if (data.dislike) {
           checkImageReaction.dislike = Number(checkImageReaction.dislike) + 1;
           const updatedReaction = await checkImageReaction.save();
-          return successResponse(res, updatedReaction);
-        } else if (
-          typeof req.body !== null &&
-          req.body.hasOwnProperty("like")
-        ) {
+          return updatedReaction;
+        } else if (data.like) {
           checkImageReaction.like = Number(checkImageReaction.like) + 1;
           const updatedReaction = await checkImageReaction.save();
-          return successResponse(res, updatedReaction);
+          return updatedReaction;
         } else {
-          return successResponse(res, checkImageReaction);
+          return checkImageReaction;
         }
       } else {
-        if (typeof req.body !== null && req.body.hasOwnProperty("dislike")) {
+        if (data.dislike) {
           const reactImage = new Reaction({
-            imageId: req.params.imageId,
+            imageId: data.imageId,
             dislike: 1,
             like: 0,
           });
 
           const newReaction = await reactImage.save();
-          return successResponse(res, newReaction);
-        } else if (
-          typeof req.body !== null &&
-          req.body.hasOwnProperty("like")
-        ) {
+          return newReaction;
+        } else if (data.like) {
           const reactImage = new Reaction({
             imageId: req.params.imageId,
             like: 1,
@@ -45,13 +37,13 @@ const ReactionRepository = () => {
           });
 
           const newReaction = await reactImage.save();
-          return successResponse(res, newReaction);
+          return newReaction;
         } else {
-          return successResponse(res, checkImageReaction);
+          return checkImageReaction;
         }
       }
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 

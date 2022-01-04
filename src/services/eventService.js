@@ -1,136 +1,117 @@
-const errorResponse = require("../response/error.js");
 const User = require("../models/User.js");
 const EventRepository = require("../repositories/eventRepository.js");
 const AttendeeRepository = require("../repositories/AttendeeRepository.js");
 const ImageRepository = require("../repositories/ImageRepository.js");
-const { isEmpty } = require("../utils/validator.js");
-const successResponse = require("../response/success.js");
 const ReviewRepository = require("../repositories/ReviewRepository.js");
 const ReactionRepository = require("../repositories/ReactionRepository.js");
 
 const eventService = () => {
-  const newEvent = async (req, res) => {
+  const newEvent = async (options) => {
     try {
-      const { title, isPublic, geolocation, address, startTime, endTime } =
-        req.body;
-      if (
-        isEmpty(title) ||
-        isEmpty(isPublic) ||
-        isEmpty(geolocation) ||
-        isEmpty(address) ||
-        isEmpty(startTime) ||
-        isEmpty(endTime)
-      ) {
-        return errorResponse(res, "Please fill all required fields");
-      }
-
-      const event = await EventRepository.createEvent(req, res);
+      const event = await EventRepository.createEvent(options);
       return event;
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const enterEvent = async (req, res) => {
+  const enterEvent = async (data) => {
     try {
-      const user = await User.findById(req.user._id).select("-password");
+      const user = await User.findById(data.userId).select("-password");
       if (user) {
-        const event = await EventRepository.eventJoin(req, res);
+        const event = await EventRepository.eventJoin(data);
         return event;
       } else {
-        return errorResponse(res, "Please Log in");
+        throw new Error("Please Log in");
       }
     } catch (error) {
-      return errorResponse(res, "Something went wrong");
+      throw new Error(error);
     }
   };
 
-  const postImage = async (req, res) => {
+  const postImage = async (data) => {
     try {
       // check if event exist and still onGoing
-      const event = await EventRepository.checkEvent(req, res);
+      const event = await EventRepository.checkEvent(data);
       if (event) {
-        const attendee = await AttendeeRepository.checkAttendee(req, res);
+        const attendee = await AttendeeRepository.checkAttendee(data);
         if (attendee) {
-          const image = await ImageRepository.addImage(req, res);
+          const image = await ImageRepository.addImage(data);
           if (image) {
-            return successResponse(res, image);
+            return image;
           } else {
-            return errorResponse(res, "Something went wrong");
+            throw new Error("Something went wrong");
           }
         } else {
-          return errorResponse(res, "No, You do not have access to this event");
+          throw new Error("No, You do not have access to this event");
         }
       } else {
-        return errorResponse(res, "This Event is no longer active");
+        throw new Error("This Event is no longer active");
       }
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const imageComment = async (req, res) => {
+  const imageComment = async (data) => {
     try {
       // check if event exist and still onGoing
-      const event = await EventRepository.checkEvent(req, res);
+      const event = await EventRepository.checkEvent(data);
       if (event) {
-        const attendee = await AttendeeRepository.checkAttendee(req, res);
+        const attendee = await AttendeeRepository.checkAttendee(data);
         if (attendee) {
-          const review = await ReviewRepository.addReview(req, res);
+          const review = await ReviewRepository.addReview(data);
           if (review) {
-            return successResponse(res, review);
+            return review;
           } else {
-            return errorResponse(res, "Something went wrong");
+            throw new Error("Something went wrong");
           }
         } else {
-          return errorResponse(res, "No, You do not have access to this event");
+          throw new Error("No, You do not have access to this event");
         }
       } else {
-        return errorResponse(res, "This Event is no longer active");
+        throw new Error("This Event is no longer active");
       }
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const imageFetch = async (req, res) => {
+  const imageFetch = async (data) => {
     try {
       // check if event exist and still onGoing
-      const event = await EventRepository.checkEvent(req, res);
+      const event = await EventRepository.checkEvent(data);
       if (event) {
-        const attendee = await AttendeeRepository.checkAttendee(req, res);
+        const attendee = await AttendeeRepository.checkAttendee(data);
         if (attendee) {
-          const comments = await ReviewRepository.getImageReviews(req, res);
+          const comments = await ReviewRepository.getImageReviews(data);
           return comments;
         } else {
-          return errorResponse(
-            res,
-            "Sorry, You do not have access to the event"
-          );
+          throw new Error("Sorry, You do not have access to the event");
         }
       } else {
-        return errorResponse(res, "This event is no longer active");
+        throw new Error("This event is no longer active");
       }
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const eventFetch = async (req, res) => {
+  const eventFetch = async () => {
     try {
-      const events = await EventRepository.getAllEvents(req, res);
+      const events = await EventRepository.getAllEvents();
       return events;
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const imageReact = async (req, res) => {
+  const imageReact = async (data) => {
     try {
-      const reaction = await ReactionRepository.reactionAdd(req, res);
+      const reaction = await ReactionRepository.reactionAdd(data);
       return reaction;
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 

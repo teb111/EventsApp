@@ -1,10 +1,62 @@
 const errorResponse = require("../response/error");
+const successResponse = require("../response/success");
+const { isEmpty } = require("../utils/validator");
 
 const eventController = (serviceContainer) => {
   const createEvent = async (req, res) => {
     try {
-      const result = await serviceContainer.eventService.newEvent(req, res);
-      return result;
+      if (typeof req.body !== null) {
+        const { title, isPublic, geolocation, address, startTime, endTime } =
+          req.body;
+        const options = {
+          title,
+          isPublic,
+          geolocation,
+          address,
+          startTime,
+          endTime,
+          userId: req.user._id,
+        };
+        if (
+          isEmpty(title) ||
+          isEmpty(isPublic) ||
+          isEmpty(geolocation) ||
+          isEmpty(address) ||
+          isEmpty(startTime) ||
+          isEmpty(endTime)
+        ) {
+          return errorResponse(res, "Please fill all required fields");
+        } else {
+          if (isPublic === "false") {
+            const { visibility, attendants, passcode } = req.body;
+
+            const data = {
+              title,
+              isPublic,
+              geolocation,
+              address,
+              startTime,
+              endTime,
+              userId: req.user._id,
+              visibility,
+              attendants,
+              passcode,
+            };
+            const result = await serviceContainer.eventService.newEvent(data);
+            return successResponse(res, result);
+          } else {
+            const result = await serviceContainer.eventService.newEvent(
+              options
+            );
+            return successResponse(res, result);
+          }
+        }
+      } else {
+        return errorResponse(
+          res,
+          "Properties missing, Please check body content"
+        );
+      }
     } catch (error) {
       return errorResponse(res, error);
     }
@@ -12,8 +64,33 @@ const eventController = (serviceContainer) => {
 
   const joinEvent = async (req, res) => {
     try {
-      const result = await serviceContainer.eventService.enterEvent(req, res);
-      return result;
+      if (typeof req.body !== null) {
+        const options = { userId: req.user._id, eventId: req.params.id };
+        if (req.body.hasOwnProperty("passcode")) {
+          const { passcode } = req.body;
+          const data = {
+            passcode,
+            userId: req.user._id,
+            eventId: req.params.id,
+          };
+          if (isEmpty(passcode)) {
+            return errorResponse(res, "Passcode cannot be Empty");
+          } else {
+            const result = await serviceContainer.eventService.enterEvent(data);
+            return successResponse(res, result);
+          }
+        } else {
+          const result = await serviceContainer.eventService.enterEvent(
+            options
+          );
+          return successResponse(res, result);
+        }
+      } else {
+        return errorResponse(
+          res,
+          "Properties missing, Please check body content"
+        );
+      }
     } catch (error) {
       return errorResponse(res, error);
     }
@@ -21,8 +98,27 @@ const eventController = (serviceContainer) => {
 
   const addImage = async (req, res) => {
     try {
-      const result = await serviceContainer.eventService.postImage(req, res);
-      return result;
+      if (typeof req.body !== null) {
+        const { title, image, geolocation } = req.body;
+        const data = {
+          title,
+          image,
+          geolocation,
+          userId: req.user._id,
+          eventId: req.params.id,
+        };
+        if (isEmpty(title) || isEmpty(image) || isEmpty(geolocation)) {
+          return errorResponse(res, "Please fill all required fields");
+        } else {
+          const result = await serviceContainer.eventService.postImage(data);
+          return successResponse(res, result);
+        }
+      } else {
+        return errorResponse(
+          res,
+          "Properties missing, Please check body content"
+        );
+      }
     } catch (error) {
       return errorResponse(res, error);
     }
@@ -30,8 +126,27 @@ const eventController = (serviceContainer) => {
 
   const commentImage = async (req, res) => {
     try {
-      const result = await serviceContainer.eventService.imageComment(req, res);
-      return result;
+      if (typeof req.body !== null) {
+        const { comment, rating } = req.body;
+        const data = {
+          comment,
+          rating,
+          userId: req.user._id,
+          eventId: req.params.id,
+          imageId: req.params.imageId,
+        };
+        if (isEmpty(comment) || isEmpty(rating)) {
+          return errorResponse(res, "Please fill all required fields");
+        } else {
+          const result = await serviceContainer.eventService.imageComment(data);
+          return successResponse(res, result);
+        }
+      } else {
+        return errorResponse(
+          res,
+          "Properties missing, Please check body content"
+        );
+      }
     } catch (error) {
       return errorResponse(res, error);
     }
@@ -39,8 +154,13 @@ const eventController = (serviceContainer) => {
 
   const getImage = async (req, res) => {
     try {
-      const result = await serviceContainer.eventService.imageFetch(req, res);
-      return result;
+      const data = {
+        eventId: req.params.id,
+        imageId: req.params.imageId,
+        userId: req.user._id,
+      };
+      const result = await serviceContainer.eventService.imageFetch(data);
+      return successResponse(res, result);
     } catch (error) {
       return errorResponse(res, error);
     }
@@ -48,17 +168,47 @@ const eventController = (serviceContainer) => {
 
   const getEvents = async (req, res) => {
     try {
-      const result = await serviceContainer.eventService.eventFetch(req, res);
-      return result;
+      const result = await serviceContainer.eventService.eventFetch();
+      return successResponse(res, result);
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
   const addReaction = async (req, res) => {
     try {
-      const result = await serviceContainer.eventService.imageReact(req, res);
-      return result;
+      if (typeof req.body !== null) {
+        if (req.body.hasOwnProperty("like")) {
+          if (isEmpty(req.body.like)) {
+            return errorResponse(res, "Like cannot be Empty", 400);
+          }
+          const data = {
+            eventId: req.params.id,
+            imageId: req.params.imageId,
+            userId: req.user._id,
+            like: req.body.like,
+          };
+          const result = await serviceContainer.eventService.imageReact(data);
+          return successResponse(res, result);
+        } else if (req.body.hasOwnProperty("dislike")) {
+          if (isEmpty(req.body.dislike)) {
+            return errorResponse(res, "disLike cannot be Empty", 400);
+          }
+          const data = {
+            eventId: req.params.id,
+            imageId: req.params.imageId,
+            userId: req.user._id,
+            dislike: req.body.dislike,
+          };
+          const result = await serviceContainer.eventService.imageReact(data);
+          return successResponse(res, result);
+        }
+      } else {
+        return errorResponse(
+          res,
+          "Properties missing, Please check body content"
+        );
+      }
     } catch (error) {
       return errorResponse(res, error);
     }

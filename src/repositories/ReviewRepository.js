@@ -1,31 +1,30 @@
 const Review = require("../models/Review");
-const errorResponse = require("../response/error");
 
 const ReviewRepository = () => {
-  const addReview = async (req, res) => {
+  const addReview = async (data) => {
     try {
-      const { comment, rating } = req.body;
+      const { comment, rating } = data;
       const review = new Review({
         comment,
-        imageId: req.params.imageId,
-        userId: req.user._id,
+        imageId: data.imageId,
+        userId: data.userId,
         rating: Number(rating),
-        eventId: req.params.id,
+        eventId: data.eventId,
       });
 
       const newReview = await review.save();
       return newReview;
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
-  const getImageReviews = async (req, res) => {
+  const getImageReviews = async (data) => {
     let review = [];
     try {
       const getReviews = await Review.find({
-        eventId: req.params.id,
-        imageId: req.params.imageId,
+        eventId: data.eventId,
+        imageId: data.imageId,
       });
       if (getReviews.length > 1) {
         review.push(...getReviews);
@@ -34,7 +33,7 @@ const ReviewRepository = () => {
       }
       return review;
     } catch (error) {
-      return errorResponse(res, error);
+      throw new Error(error);
     }
   };
 
