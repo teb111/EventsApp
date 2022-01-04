@@ -4,6 +4,7 @@ const AttendeeRepository = require("../repositories/AttendeeRepository.js");
 const ImageRepository = require("../repositories/ImageRepository.js");
 const ReviewRepository = require("../repositories/ReviewRepository.js");
 const ReactionRepository = require("../repositories/ReactionRepository.js");
+const ResponseMsg = require("../response/message.js");
 
 const eventService = () => {
   const newEvent = async (options) => {
@@ -40,10 +41,10 @@ const eventService = () => {
           if (image) {
             return image;
           } else {
-            throw new Error("Something went wrong");
+            throw new Error(ResponseMsg.ERROR.ERROR_WENT_WRONG);
           }
         } else {
-          throw new Error("No, You do not have access to this event");
+          throw new Error(ResponseMsg.ERROR.ERROR_EVENT_ACCESS_DENIED);
         }
       } else {
         throw new Error("This Event is no longer active");
@@ -64,13 +65,13 @@ const eventService = () => {
           if (review) {
             return review;
           } else {
-            throw new Error("Something went wrong");
+            throw new Error(ResponseMsg.ERROR.ERROR_WENT_WRONG);
           }
         } else {
-          throw new Error("No, You do not have access to this event");
+          throw new Error(ResponseMsg.ERROR.ERROR_EVENT_ACCESS_DENIED);
         }
       } else {
-        throw new Error("This Event is no longer active");
+        throw new Error(ResponseMsg.ERROR.ERROR_EVENT_INACTIVE);
       }
     } catch (error) {
       throw new Error(error);
@@ -87,10 +88,10 @@ const eventService = () => {
           const comments = await ReviewRepository.getImageReviews(data);
           return comments;
         } else {
-          throw new Error("Sorry, You do not have access to the event");
+          throw new Error(ResponseMsg.ERROR.ERROR_EVENT_ACCESS_DENIED);
         }
       } else {
-        throw new Error("This event is no longer active");
+        throw new Error(ResponseMsg.ERROR.ERROR_EVENT_INACTIVE);
       }
     } catch (error) {
       throw new Error(error);

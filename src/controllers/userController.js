@@ -1,4 +1,5 @@
 const errorResponse = require("../response/error");
+const ResponseMsg = require("../response/message");
 const successResponse = require("../response/success");
 const { isEmpty } = require("../utils/validator");
 
@@ -18,7 +19,7 @@ const userController = (serviceContainer) => {
           isEmpty(password) ||
           isEmpty(image)
         ) {
-          return errorResponse(res, "Please fill all required fields");
+          return errorResponse(res, ResponseMsg.ERROR.ERROR_MISSING_FIELD, 400);
         } else {
           const result = await serviceContainer.userService.addUser(
             name,
@@ -29,10 +30,7 @@ const userController = (serviceContainer) => {
           return successResponse(res, result);
         }
       } else {
-        return errorResponse(
-          res,
-          "Properties missing, Please check body content"
-        );
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
       }
     } catch (error) {
       return errorResponse(res, error);
@@ -48,7 +46,7 @@ const userController = (serviceContainer) => {
       ) {
         const { email, password } = req.body;
         if (isEmpty(email) || isEmpty(password)) {
-          return errorResponse(res, "Email or password cannot be Empty");
+          return errorResponse(res, Response.ERROR.ERROR_MISSING_FIELD, 400);
         } else {
           const result = await serviceContainer.userService.authUser(
             email,
@@ -57,10 +55,7 @@ const userController = (serviceContainer) => {
           return successResponse(res, result);
         }
       } else {
-        return errorResponse(
-          res,
-          "Properties missing, Please check body content"
-        );
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
       }
     } catch (error) {
       return errorResponse(res, error);
@@ -72,7 +67,7 @@ const userController = (serviceContainer) => {
       if (typeof req.body !== null && req.body.hasOwnProperty("email")) {
         const { email } = req.body;
         if (isEmpty(email)) {
-          return errorResponse(res, "Email cannot be Empty");
+          return errorResponse(res, Response.ERROR.ERROR_MISSING_FIELD, 400);
         } else {
           const result = await serviceContainer.userService.passwordResetLink(
             email
@@ -80,10 +75,7 @@ const userController = (serviceContainer) => {
           return successResponse(res, result);
         }
       } else {
-        return errorResponse(
-          res,
-          "Properties missing, Please check body content"
-        );
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
       }
     } catch (error) {
       return errorResponse(res, error);
@@ -101,7 +93,7 @@ const userController = (serviceContainer) => {
           isEmpty(data.userId) ||
           isEmpty(data.userToken)
         ) {
-          return errorResponse(res, "Fields cannot be Empty");
+          return errorResponse(res, Response.ERROR.ERROR_MISSING_FIELD, 400);
         } else {
           const result = await serviceContainer.userService.resetPassword(
             password,
@@ -110,10 +102,7 @@ const userController = (serviceContainer) => {
           return successResponse(res, result);
         }
       } else {
-        return errorResponse(
-          res,
-          "Properties missing, Please check body content"
-        );
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
       }
     } catch (error) {
       return errorResponse(res, error);

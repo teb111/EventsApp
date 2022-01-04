@@ -1,4 +1,5 @@
 const errorResponse = require("../response/error");
+const ResponseMsg = require("../response/message");
 const successResponse = require("../response/success");
 const { isEmpty } = require("../utils/validator");
 
@@ -25,7 +26,7 @@ const eventController = (serviceContainer) => {
           isEmpty(startTime) ||
           isEmpty(endTime)
         ) {
-          return errorResponse(res, "Please fill all required fields");
+          return errorResponse(res, ResponseMsg.ERROR.ERROR_MISSING_FIELD, 400);
         } else {
           if (isPublic === "false") {
             const { visibility, attendants, passcode } = req.body;
@@ -74,7 +75,11 @@ const eventController = (serviceContainer) => {
             eventId: req.params.id,
           };
           if (isEmpty(passcode)) {
-            return errorResponse(res, "Passcode cannot be Empty");
+            return errorResponse(
+              res,
+              ResponseMsg.ERROR.ERROR_MISSING_FIELD,
+              400
+            );
           } else {
             const result = await serviceContainer.eventService.enterEvent(data);
             return successResponse(res, result);
@@ -86,10 +91,7 @@ const eventController = (serviceContainer) => {
           return successResponse(res, result);
         }
       } else {
-        return errorResponse(
-          res,
-          "Properties missing, Please check body content"
-        );
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
       }
     } catch (error) {
       return errorResponse(res, error);
@@ -108,16 +110,13 @@ const eventController = (serviceContainer) => {
           eventId: req.params.id,
         };
         if (isEmpty(title) || isEmpty(image) || isEmpty(geolocation)) {
-          return errorResponse(res, "Please fill all required fields");
+          return errorResponse(res, ResponseMsg.ERROR.ERROR_MISSING_FIELD, 400);
         } else {
           const result = await serviceContainer.eventService.postImage(data);
           return successResponse(res, result);
         }
       } else {
-        return errorResponse(
-          res,
-          "Properties missing, Please check body content"
-        );
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
       }
     } catch (error) {
       return errorResponse(res, error);
@@ -136,16 +135,13 @@ const eventController = (serviceContainer) => {
           imageId: req.params.imageId,
         };
         if (isEmpty(comment) || isEmpty(rating)) {
-          return errorResponse(res, "Please fill all required fields");
+          return errorResponse(res, ResponseMsg.ERROR.ERROR_MISSING_FIELD, 400);
         } else {
           const result = await serviceContainer.eventService.imageComment(data);
           return successResponse(res, result);
         }
       } else {
-        return errorResponse(
-          res,
-          "Properties missing, Please check body content"
-        );
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
       }
     } catch (error) {
       return errorResponse(res, error);
@@ -180,7 +176,11 @@ const eventController = (serviceContainer) => {
       if (typeof req.body !== null) {
         if (req.body.hasOwnProperty("like")) {
           if (isEmpty(req.body.like)) {
-            return errorResponse(res, "Like cannot be Empty", 400);
+            return errorResponse(
+              res,
+              ResponseMsg.ERROR.ERROR_MISSING_FIELD,
+              400
+            );
           }
           const data = {
             eventId: req.params.id,
@@ -192,7 +192,11 @@ const eventController = (serviceContainer) => {
           return successResponse(res, result);
         } else if (req.body.hasOwnProperty("dislike")) {
           if (isEmpty(req.body.dislike)) {
-            return errorResponse(res, "disLike cannot be Empty", 400);
+            return errorResponse(
+              res,
+              ResponseMsg.ERROR.ERROR_MISSING_FIELD,
+              400
+            );
           }
           const data = {
             eventId: req.params.id,
@@ -204,10 +208,7 @@ const eventController = (serviceContainer) => {
           return successResponse(res, result);
         }
       } else {
-        return errorResponse(
-          res,
-          "Properties missing, Please check body content"
-        );
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
       }
     } catch (error) {
       return errorResponse(res, error);

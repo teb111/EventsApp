@@ -2,13 +2,14 @@ const User = require("../models/User.js");
 const generateToken = require("../utils/generateToken.js");
 const sendMail = require("../mails/mail.js");
 const passwordResetMail = require("../mails/passwordResetMail.js");
+const ResponseMsg = require("../response/message.js");
 
 const userRepository = () => {
   const createUser = async (name, email, password, image) => {
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-      throw new Error("User already Exists");
+      throw new Error(ResponseMsg.ERROR.ERROR_USER_EXISTS);
     }
 
     try {
@@ -48,7 +49,7 @@ const userRepository = () => {
         };
         return result;
       } else {
-        throw new Error("Check Login Credentials and Try Again");
+        throw new Error(ResponseMsg.ERROR.ERROR_INVALID_LOGIN_CREDENTIALS);
       }
     } catch (error) {
       throw new Error(error);
@@ -66,9 +67,9 @@ const userRepository = () => {
           token: generateToken(user._id), // generating a token alongside the user's id
         };
         passwordResetMail(createdUser);
-        return "A link has been sent to your Email to continue resetting your password";
+        return ResponseMsg.SUCCESS.SUCCESS_PASSWORD_RESET_LINK;
       } else {
-        throw new Error("No user was found with that email Address");
+        throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
       }
     } catch (error) {
       throw new Error(error);
@@ -85,9 +86,9 @@ const userRepository = () => {
         }
         await user.save();
 
-        return "Password was changed successfully, Please Log in";
+        return ResponseMsg.SUCCESS.SUCCESS_PASSWORD_CHANGED;
       } else {
-        throw new Error("User Not Found");
+        throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
       }
     } catch (error) {
       throw new Error(error);
@@ -100,7 +101,7 @@ const userRepository = () => {
       const info = { userName: user.name, email: user.email };
       return info;
     } else {
-      throw new Error("User Not found");
+      throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
     }
   };
 

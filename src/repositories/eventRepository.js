@@ -3,6 +3,7 @@ const Event = require("../models/Event.js");
 const Attendee = require("../models/Attendee.js");
 const UserRepository = require("../repositories/userRepository.js");
 const { isEmpty } = require("../utils/validator.js");
+const ResponseMsg = require("../response/message.js");
 
 const EventRepository = () => {
   const createEvent = async (options) => {
@@ -21,9 +22,7 @@ const EventRepository = () => {
         status: "active",
       });
       if (checkSimilarEventName) {
-        throw new Error(
-          "Event with the same title already exists, Please choose a different title"
-        );
+        throw new Error(ResponseMsg.ERROR.ERROR_EVENT_SAME_TITLE);
       } else {
         if (isPublic === "true") {
           const event = new Event({
@@ -47,7 +46,7 @@ const EventRepository = () => {
           const { visibility, attendants, passcode } = options;
 
           if (isEmpty(visibility) || isEmpty(attendants) || isEmpty(passcode)) {
-            throw new Error("Required fields  Empty");
+            throw new Error(ResponseMsg.ERROR.ERROR_MISSING_FIELD);
           }
 
           const event = new Event({
@@ -89,7 +88,7 @@ const EventRepository = () => {
             eventId: data.eventId,
           });
           if (inEvent) {
-            return "You are already in this event";
+            throw new Error(ResponseMsg.ERROR.ERROR_IN_EVENT);
           } else {
             const user = new Attendee({
               userId: data.userId,
@@ -109,7 +108,7 @@ const EventRepository = () => {
               eventId: data.eventId,
             });
             if (inEvent) {
-              return "You are already in this event";
+              throw new Error(ResponseMsg.ERROR.ERROR_IN_EVENT);
             } else {
               const user = new Attendee({
                 userId: data.userId,
@@ -121,11 +120,11 @@ const EventRepository = () => {
               return addedUser;
             }
           } else {
-            throw new Error("Incorrect Passcode");
+            throw new Error(ResponseMsg.ERROR.ERROR_INCORRECT_PASSCODE);
           }
         }
       } else {
-        throw new Error("Sorry this event does not exist anymmore");
+        throw new Error(ResponseMsg.ERROR.ERROR_NO_EVENT);
       }
     } catch (error) {
       throw new Error(error);
