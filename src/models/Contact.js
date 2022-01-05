@@ -13,9 +13,10 @@ const ContactSchema = new mongoose.Schema(
       required: true,
     },
 
+    // ["pending", "accepted", "rejected", "blocked"]
     friendStatus: { type: String, required: true, default: "pending" },
 
-    status: { type: String, required: true },
+    status: { type: String, required: true, default: "active" },
   },
   {
     timestamps: true,

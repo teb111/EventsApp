@@ -1,6 +1,6 @@
-const errorResponse = require("../response/error.js");
 const validateEmail = require("../mails/validateMail.js");
 const UserRepository = require("../repositories/userRepository.js");
+const ContactRepository = require("../repositories/ContactRepository.js");
 const jwt = require("jsonwebtoken");
 const util = require("util");
 const ResponseMsg = require("../response/message.js");
@@ -65,11 +65,57 @@ const userService = () => {
     }
   };
 
+  const sendFriendRequest = async (data) => {
+    try {
+      // get friendId
+      const friend = await UserRepository.getUserId(data.email);
+      if (friend) {
+        const friendData = {
+          friendId: friend._id,
+        };
+
+        const result = await ContactRepository.addFriend(
+          data,
+          friendData.friendId
+        );
+        return result;
+      } else {
+        throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const requestRespond = async (data) => {
+    try {
+      // get friendId
+      const friend = await UserRepository.getUserId(data.email);
+      if (friend) {
+        const friendData = {
+          friendId: friend._id,
+        };
+
+        const result = await ContactRepository.friendRequestRespond(
+          data,
+          friendData.friendId
+        );
+        return result;
+      } else {
+        throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   return {
     addUser,
     authUser,
     passwordResetLink,
     resetPassword,
+    sendFriendRequest,
+    requestRespond,
   };
 };
 
