@@ -1,3 +1,4 @@
+const UserConstants = require("../constants/constants");
 const Contact = require("../models/Contact");
 const ResponseMsg = require("../response/message");
 
@@ -50,14 +51,26 @@ const contactRepository = () => {
       });
 
       if (getSenderRequest) {
-        if (getSenderRequest.friendStatus === "pending") {
+        if (
+          getSenderRequest.friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_PENDING
+        ) {
           getSenderRequest.friendStatus = data.status;
           await getSenderRequest.save();
-        } else if (getSenderRequest.friendStatus === "accepted") {
+        } else if (
+          getSenderRequest.friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_ACCEPTED
+        ) {
           return ResponseMsg.SUCCESS.SUCCESS_FRIEND_ACCEPTED;
-        } else if (getSenderRequest.friendStatus === "blocked") {
+        } else if (
+          getSenderRequest.friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_BLOCKED
+        ) {
           return ResponseMsg.ERROR.ERROR_NO_FRIEND_REQUEST_SENT_BLOCKED;
-        } else if (getSenderRequest.friendStatus === "rejected") {
+        } else if (
+          getSenderRequest.friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_REJECTED
+        ) {
           return ResponseMsg.ERROR.ERROR_NO_FRIEND_REQUEST_SENT_REJECTED;
         } else {
           return getSenderRequest;
@@ -73,14 +86,26 @@ const contactRepository = () => {
       });
 
       if (getReceiverRequest) {
-        if (getReceiverRequest.friendStatus === "pending") {
+        if (
+          getReceiverRequest.friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_PENDING
+        ) {
           getReceiverRequest.friendStatus = data.status;
           await getReceiverRequest.save();
-        } else if (getReceiverRequest.friendStatus === "accepted") {
+        } else if (
+          getReceiverRequest.friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_ACCEPTED
+        ) {
           return ResponseMsg.SUCCESS.SUCCESS_FRIEND_ACCEPTED;
-        } else if (getReceiverRequest.friendStatus === "blocked") {
+        } else if (
+          getReceiverRequest.friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_BLOCKED
+        ) {
           return ResponseMsg.ERROR.ERROR_NO_FRIEND_REQUEST_SENT_BLOCKED;
-        } else if (getReceiverRequest.friendStatus === "rejected") {
+        } else if (
+          getReceiverRequest.friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_REJECTED
+        ) {
           return ResponseMsg.ERROR.ERROR_NO_FRIEND_REQUEST_SENT_REJECTED;
         }
       } else {
