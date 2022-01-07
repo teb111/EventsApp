@@ -102,7 +102,6 @@ const userRepository = () => {
       return info;
     } else {
       throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
-<<<<<<< HEAD
     }
   };
 
@@ -112,8 +111,6 @@ const userRepository = () => {
       return result;
     } catch (error) {
       throw new Error(error);
-=======
->>>>>>> c9bd46e070cf33c6a5364eca457e0e9f266310a3
     }
   };
 
