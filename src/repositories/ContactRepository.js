@@ -1,4 +1,4 @@
-const UserConstants = require("../constants/constants");
+const { UserConstants } = require("../constants/constants");
 const Contact = require("../models/Contact");
 const ResponseMsg = require("../response/message");
 
@@ -14,13 +14,25 @@ const contactRepository = () => {
       if (checkRecord) {
         const { friendStatus } = checkRecord;
         // check the friendStatus and respond accordingly
-        if (friendStatus === "pending") {
+        if (
+          friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_PENDING
+        ) {
           return ResponseMsg.SUCCESS.SUCCESS_FRIEND_PENDING;
-        } else if (friendStatus === "accepted") {
+        } else if (
+          friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_ACCEPTED
+        ) {
           return ResponseMsg.SUCCESS.SUCCESS_FRIEND_ACCEPTED;
-        } else if (friendStatus === "rejected") {
+        } else if (
+          friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_REJECTED
+        ) {
           return ResponseMsg.ERROR.ERROR_NO_FRIEND_REQUEST_SENT_REJECTED;
-        } else if (friendStatus === "blocked") {
+        } else if (
+          friendStatus ===
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_BLOCKED
+        ) {
           return ResponseMsg.ERROR.ERROR_NO_FRIEND_REQUEST_SENT_BLOCKED;
         } else {
           return checkRecord;

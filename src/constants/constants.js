@@ -7,4 +7,4 @@ const UserConstants = {
   },
 };
 
-module.exports = UserConstants;
+module.exports = { UserConstants };
