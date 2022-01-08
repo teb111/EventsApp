@@ -7,4 +7,15 @@ const UserConstants = {
   },
 };
 
-module.exports = { UserConstants };
+const StatusConstants = {
+  STATUS_ACTIVE: "active",
+  STATUS_DELETED: "deleted",
+  STATUS_SUSPENDED: "suspended",
+};
+
+const PublicConstants = {
+  PUBLIC_TRUE: "true",
+  PUBLIC_FALSE: "false",
+};
+
+module.exports = { UserConstants, StatusConstants, PublicConstants };

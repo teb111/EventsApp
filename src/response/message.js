@@ -20,6 +20,7 @@ const ResponseMsg = {
       "Sorry, we were unable to send a friend request, Request Blocked",
     ERROR_NO_FRIEND_REQUEST_SENT_REJECTED:
       "Sorry, we were unable to send a friend request, Request Rejected",
+    ERROR_LOG_IN: "Please Log in",
   },
   SUCCESS: {
     SUCCESS_PASSWORD_RESET_LINK:

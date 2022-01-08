@@ -1,4 +1,4 @@
-const { UserConstants } = require("../constants/constants");
+const { UserConstants, StatusConstants } = require("../constants/constants");
 const Contact = require("../models/Contact");
 const ResponseMsg = require("../response/message");
 
@@ -9,7 +9,7 @@ const contactRepository = () => {
       const checkRecord = await Contact.findOne({
         userId: data.userId,
         friendId,
-        status: "active",
+        status: StatusConstants.STATUS_ACTIVE,
       });
       if (checkRecord) {
         const { friendStatus } = checkRecord;
@@ -41,7 +41,8 @@ const contactRepository = () => {
         const newRequest = new Contact({
           userId: data.userId,
           friendId,
-          friendStatus: "pending",
+          friendStatus:
+            UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_PENDING,
         });
 
         await newRequest.save();
@@ -59,7 +60,7 @@ const contactRepository = () => {
       const getSenderRequest = await Contact.findOne({
         userId: friendId,
         friendId: data.userId,
-        status: "active",
+        status: StatusConstants.STATUS_ACTIVE,
       });
 
       if (getSenderRequest) {
@@ -94,7 +95,7 @@ const contactRepository = () => {
       const getReceiverRequest = await Contact.findOne({
         userId: data.userId,
         friendId,
-        status: "active",
+        status: StatusConstants.STATUS_ACTIVE,
       });
 
       if (getReceiverRequest) {
@@ -124,7 +125,8 @@ const contactRepository = () => {
         const newFriend = new Contact({
           userId: data.userId,
           friendId,
-          friendStatus: "accepted",
+          friendStatus:
+            UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_ACCEPTED,
         });
 
         await newFriend.save();

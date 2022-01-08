@@ -41,7 +41,7 @@ const userService = () => {
   const passwordResetLink = async (email) => {
     try {
       if (!validateEmail(email)) {
-        throw new Error("invalid Email Format");
+        throw new Error(ResponseMsg.Error.ERROR_INVALID_EMAIL);
       }
       const result = await UserRepository.sendPasswordLink(email);
       return result;

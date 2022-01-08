@@ -1,3 +1,4 @@
+const { PublicConstants } = require("../constants/constants");
 const errorResponse = require("../response/error");
 const ResponseMsg = require("../response/message");
 const successResponse = require("../response/success");
@@ -28,7 +29,7 @@ const eventController = (serviceContainer) => {
         ) {
           return errorResponse(res, ResponseMsg.ERROR.ERROR_MISSING_FIELD, 400);
         } else {
-          if (isPublic === "false") {
+          if (isPublic === PublicConstants.PUBLIC_FALSE) {
             const { visibility, attendants, passcode } = req.body;
 
             const data = {
@@ -53,10 +54,7 @@ const eventController = (serviceContainer) => {
           }
         }
       } else {
-        return errorResponse(
-          res,
-          "Properties missing, Please check body content"
-        );
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
       }
     } catch (error) {
       return errorResponse(res, error);
