@@ -105,12 +105,22 @@ const userRepository = () => {
     }
   };
 
+  const getUserId = async (email) => {
+    try {
+      const result = await User.findOne({ email });
+      return result;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   return {
     createUser,
     userLogin,
     sendPasswordLink,
     passwordReset,
     getUsernameById,
+    getUserId,
   };
 };
 

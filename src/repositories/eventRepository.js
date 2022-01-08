@@ -4,6 +4,10 @@ const Attendee = require("../models/Attendee.js");
 const UserRepository = require("../repositories/userRepository.js");
 const { isEmpty } = require("../utils/validator.js");
 const ResponseMsg = require("../response/message.js");
+const {
+  StatusConstants,
+  PublicConstants,
+} = require("../constants/constants.js");
 
 const EventRepository = () => {
   const createEvent = async (options) => {
@@ -19,12 +23,12 @@ const EventRepository = () => {
       } = options;
       const checkSimilarEventName = await Event.findOne({
         title,
-        status: "active",
+        status: StatusConstants.STATUS_ACTIVE,
       });
       if (checkSimilarEventName) {
         throw new Error(ResponseMsg.ERROR.ERROR_EVENT_SAME_TITLE);
       } else {
-        if (isPublic === "true") {
+        if (isPublic === PublicConstants.PUBLIC_TRUE) {
           const event = new Event({
             userId,
             title,
@@ -81,7 +85,7 @@ const EventRepository = () => {
       if (eventExists) {
         const { isPublic } = eventExists;
         // check if event is public then go ahead and add the user
-        if (isPublic === true) {
+        if (isPublic === Boolean(PublicConstants.PUBLIC_TRUE)) {
           // check if user is already in the event
           const inEvent = await Attendee.findOne({
             userId: data.userId,
@@ -135,7 +139,7 @@ const EventRepository = () => {
     try {
       const event = await Event.findOne({
         _id: data.eventId,
-        status: "active",
+        status: StatusConstants.STATUS_ACTIVE,
       });
 
       return event;
@@ -147,7 +151,10 @@ const EventRepository = () => {
   const getAllEvents = async () => {
     let events = [];
     try {
-      const event = await Event.find({ isPublic: true, status: "active" });
+      const event = await Event.find({
+        isPublic: Boolean(PublicConstants.PUBLIC_TRUE),
+        status: StatusConstants.STATUS_ACTIVE,
+      });
       events.push(...event);
       return events;
     } catch (error) {

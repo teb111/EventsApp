@@ -1,3 +1,4 @@
+const { StatusConstants } = require("../constants/constants.js");
 const Reaction = require("../models/Reaction.js");
 
 const ReactionRepository = () => {
@@ -5,7 +6,7 @@ const ReactionRepository = () => {
     try {
       const checkImageReaction = await Reaction.findOne({
         imageId: data.imageId,
-        status: "active",
+        status: StatusConstants.STATUS_ACTIVE,
       });
       if (checkImageReaction) {
         if (data.dislike) {

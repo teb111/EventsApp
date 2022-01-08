@@ -91,9 +91,35 @@ const userResetPasswordOpts = {
   handler: (req, res) => UserControllerHandler.resetUserPassword(req, res),
 };
 
+//add friend Options
+
+const addFriendOpts = {
+  schema: {
+    body: {
+      type: "object",
+      required: ["email"],
+      properties: { email: { type: "string" } },
+    },
+  },
+};
+
+// respond to friend Request options
+
+const respondFriendOpts = {
+  schema: {
+    body: {
+      type: "object",
+      required: ["status"],
+      properties: { status: { type: "string" } },
+    },
+  },
+};
+
 module.exports = {
   userRegisterOpts,
   userLoginOpts,
   userResetPasswordOpts,
   userPasswordLink,
+  addFriendOpts,
+  respondFriendOpts,
 };

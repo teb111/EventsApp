@@ -23,7 +23,7 @@ const eventService = () => {
         const event = await EventRepository.eventJoin(data);
         return event;
       } else {
-        throw new Error("Please Log in");
+        throw new Error(ResponseMsg.ERROR.ERROR_LOG_IN);
       }
     } catch (error) {
       throw new Error(error);
@@ -47,7 +47,7 @@ const eventService = () => {
           throw new Error(ResponseMsg.ERROR.ERROR_EVENT_ACCESS_DENIED);
         }
       } else {
-        throw new Error("This Event is no longer active");
+        throw new Error(ResponseMsg.ERROR.ERROR_EVENT_INACTIVE);
       }
     } catch (error) {
       throw new Error(error);

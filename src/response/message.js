@@ -16,12 +16,19 @@ const ResponseMsg = {
     ERROR_NO_USER: "No user Found",
     ERROR_INVALID_LOGIN_CREDENTIALS: "Check Login Credentials and Try Again",
     ERROR_USER_EXISTS: "User already exists",
+    ERROR_NO_FRIEND_REQUEST_SENT_BLOCKED:
+      "Sorry, we were unable to send a friend request, Request Blocked",
+    ERROR_NO_FRIEND_REQUEST_SENT_REJECTED:
+      "Sorry, we were unable to send a friend request, Request Rejected",
+    ERROR_LOG_IN: "Please Log in",
   },
   SUCCESS: {
     SUCCESS_PASSWORD_RESET_LINK:
       "A link has been sent to your Email to continue resetting your password",
     SUCCESS_PASSWORD_CHANGED:
       "Password was changed successfully, Please Log in",
+    SUCCESS_FRIEND_PENDING: "You have a pending Friend Request",
+    SUCCESS_FRIEND_ACCEPTED: "You are friends already",
   },
 };
 

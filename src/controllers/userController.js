@@ -109,11 +109,60 @@ const userController = (serviceContainer) => {
     }
   };
 
+  const addFriend = async (req, res) => {
+    try {
+      if (typeof req.body !== null && req.body.hasOwnProperty("email")) {
+        const data = {
+          email: req.body.email,
+          userId: req.user._id,
+        };
+        if (isEmpty(data.email)) {
+          return errorResponse(res, Response.ERROR.ERROR_MISSING_FIELD, 400);
+        } else {
+          const result = await serviceContainer.userService.sendFriendRequest(
+            data
+          );
+          return successResponse(res, result);
+        }
+      } else {
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
+      }
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
+  const respondFriend = async (req, res) => {
+    try {
+      if (typeof req.body !== null && req.body.hasOwnProperty("status")) {
+        const data = {
+          userId: req.user._id,
+          email: req.body.email,
+          status: req.body.status,
+        };
+        if (isEmpty(data.email) || isEmpty(data.status)) {
+          return errorResponse(res, Response.ERROR.ERROR_MISSING_FIELD, 400);
+        } else {
+          const result = await serviceContainer.userService.requestRespond(
+            data
+          );
+          return successResponse(res, result);
+        }
+      } else {
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
+      }
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
   return {
     registerUser,
     loginUser,
     getPasswordResetLink,
     resetUserPassword,
+    addFriend,
+    respondFriend,
   };
 };
 
