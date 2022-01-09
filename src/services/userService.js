@@ -109,6 +109,32 @@ const userService = () => {
     }
   };
 
+  const fetchContacts = async (data) => {
+    try {
+      const contacts = await ContactRepository.allContacts(data);
+      if (contacts) {
+        return contacts;
+      } else {
+        throw new Error(ResponseMsg.ERROR.ERROR_WENT_WRONG);
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const getFriendRequests = async (userId) => {
+    try {
+      const contacts = await ContactRepository.allFriendRequests(userId);
+      if (contacts) {
+        return contacts;
+      } else {
+        throw new Error(ResponseMsg.ERROR.ERROR_WENT_WRONG);
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   return {
     addUser,
     authUser,
@@ -116,6 +142,8 @@ const userService = () => {
     resetPassword,
     sendFriendRequest,
     requestRespond,
+    fetchContacts,
+    getFriendRequests,
   };
 };
 

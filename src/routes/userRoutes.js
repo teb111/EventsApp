@@ -34,6 +34,18 @@ function userRoutes(fastify, options, done) {
     (req, res) => UserControllerHandler.respondFriend(req, res)
   );
 
+  // get User Contacts/friends
+  fastify.get(
+    "/api/user/contacts/:status",
+    { preHandler: protect },
+    (req, res) => UserControllerHandler.getContacts(req, res)
+  );
+
+  // get all friend Requests
+  fastify.get("/api/user/requests", { preHandler: protect }, (req, res) =>
+    UserControllerHandler.friendRequests(req, res)
+  );
+
   done();
 }
 

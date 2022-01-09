@@ -11,6 +11,7 @@ const ContactSchema = new mongoose.Schema(
     friendId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "User",
     },
 
     // ["pending", "accepted", "rejected", "blocked"]
