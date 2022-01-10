@@ -58,3 +58,4 @@ function eventRoutes(fastify, options, done) {
 }
 
 module.exports = eventRoutes;
+

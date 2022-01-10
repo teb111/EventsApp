@@ -98,7 +98,11 @@ const userRepository = () => {
   const getUsernameById = async (id) => {
     const user = await User.findOne({ _id: id });
     if (user) {
-      const info = { userName: user.name, email: user.email };
+      const info = {
+        userName: user.name,
+        email: user.email,
+        image: user.image,
+      };
       return info;
     } else {
       throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);

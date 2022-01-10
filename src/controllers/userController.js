@@ -156,6 +156,38 @@ const userController = (serviceContainer) => {
     }
   };
 
+
+  const getContacts = async (req, res) => {
+    try {
+      if (req.user._id && req.params.status) {
+        if (isEmpty(req.params.status)) {
+          return errorResponse(res, Response.ERROR.ERROR_MISSING_FIELD, 400);
+        } else {
+          const data = { userId: req.user._id, status: req.params.status };
+          const result = await serviceContainer.userService.fetchContacts(data);
+          return successResponse(res, result);
+        }
+      } else {
+        return errorResponse(res, ResponseMsg.ERROR.ERROR_BODY_CONTENT, 400);
+      }
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
+  const friendRequests = async (req, res) => {
+    try {
+      const userId = req.user._id;
+      const result = await serviceContainer.userService.getFriendRequests(
+        userId
+      );
+      return successResponse(res, result);
+    } catch (error) {
+      return errorResponse(res, error);
+    }
+  };
+
+
   return {
     registerUser,
     loginUser,
@@ -163,6 +195,10 @@ const userController = (serviceContainer) => {
     resetUserPassword,
     addFriend,
     respondFriend,
+
+    getContacts,
+    friendRequests,
+
   };
 };
 

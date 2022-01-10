@@ -2,6 +2,9 @@ const { UserConstants, StatusConstants } = require("../constants/constants");
 const Contact = require("../models/Contact");
 const ResponseMsg = require("../response/message");
 
+const UserRepository = require("../repositories/userRepository");
+
+
 const contactRepository = () => {
   const addFriend = async (data, friendId) => {
     try {
@@ -137,10 +140,84 @@ const contactRepository = () => {
     }
   };
 
+
+  const allContacts = async (data) => {
+    try {
+      let friends = [];
+      if (
+        data.status ===
+        UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_ACCEPTED
+      ) {
+        const result = await Contact.find({
+          userId: data.userId,
+          status: StatusConstants.STATUS_ACTIVE,
+          friendStatus:
+            UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_ACCEPTED,
+        }).populate("friendId", "name email image");
+
+        friends.push(...result);
+
+        return friends;
+      } else if (
+        data.status ===
+        UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_REJECTED
+      ) {
+        const result = await Contact.find({
+          userId: data.userId,
+          status: StatusConstants.STATUS_ACTIVE,
+          friendStatus:
+            UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_REJECTED,
+        }).populate("friendId", "name email image");
+
+        friends.push(...result);
+
+        return friends;
+      } else if (
+        data.status ===
+        UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_BLOCKED
+      ) {
+        const result = await Contact.find({
+          userId: data.userId,
+          status: StatusConstants.STATUS_ACTIVE,
+          friendStatus:
+            UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_BLOCKED,
+        }).populate("friendId", "name email image");
+
+        friends.push(...result);
+
+        return friends;
+      } else {
+        return friends;
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const allFriendRequests = async (userId) => {
+    try {
+      let friends = [];
+      const result = await Contact.find({
+        userId,
+        status: StatusConstants.STATUS_ACTIVE,
+        friendStatus:
+          UserConstants.FRIEND_REQUEST_CONSTANTS.FRIEND_STATUS_PENDING,
+      }).populate("friendId", "name email image");
+
+      friends.push(...result);
+
+      return friends;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   return {
     addFriend,
     friendRequestRespond,
-  };
+    allContacts,
+    allFriendRequests,
+
 };
 
 module.exports = contactRepository();
