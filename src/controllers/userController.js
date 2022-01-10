@@ -156,6 +156,7 @@ const userController = (serviceContainer) => {
     }
   };
 
+
   const getContacts = async (req, res) => {
     try {
       if (req.user._id && req.params.status) {
@@ -186,6 +187,7 @@ const userController = (serviceContainer) => {
     }
   };
 
+
   return {
     registerUser,
     loginUser,
@@ -193,8 +195,10 @@ const userController = (serviceContainer) => {
     resetUserPassword,
     addFriend,
     respondFriend,
+
     getContacts,
     friendRequests,
+
   };
 };
 
