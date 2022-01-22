@@ -37,9 +37,12 @@ const ReviewRepository = () => {
     }
   };
 
+
+
   return {
     addReview,
     getImageReviews,
+
   };
 };
 

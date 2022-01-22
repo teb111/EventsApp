@@ -8,6 +8,7 @@ const {
   StatusConstants,
   PublicConstants,
 } = require("../constants/constants.js");
+const generatePassword = require("../utils/generatePassword.js");
 
 const EventRepository = () => {
   const createEvent = async (options) => {
@@ -37,9 +38,31 @@ const EventRepository = () => {
             address,
             startTime,
             endTime,
+            attendants: 1
           });
 
-          const newEvent = await event.save();
+          await event.save();
+
+          const newEvent = {
+            userId: event.userId,
+            eventId: event._id,
+            title: event.title,
+            isPublic: event.isPublic,
+            geolocation: event.geolocation,
+            address: event.address,
+            startTime: event.startTime,
+            endTime: event.endTime,
+
+          }
+
+          // add the creator to the event immediately
+          const user = new Attendee({
+            userId: newEvent.userId,
+            eventId: newEvent.eventId,
+            mode: "admin",
+          });
+
+          await user.save();
 
           const info = await UserRepository.getUsernameById(userId);
 
@@ -47,11 +70,7 @@ const EventRepository = () => {
 
           return newEvent;
         } else {
-          const { visibility, attendants, passcode } = options;
-
-          if (isEmpty(visibility) || isEmpty(attendants) || isEmpty(passcode)) {
-            throw new Error(ResponseMsg.ERROR.ERROR_MISSING_FIELD);
-          }
+          const passcode = generatePassword();
 
           const event = new Event({
             userId,
@@ -61,12 +80,33 @@ const EventRepository = () => {
             address,
             startTime,
             endTime,
-            attendants,
-            visibility,
             passcode,
+            attendants: 1
           });
 
-          const newEvent = await event.save();
+          await event.save();
+
+          const newEvent = {
+            userId: event.userId,
+            eventId: event._id,
+            title: event.title,
+            isPublic: event.isPublic,
+            geolocation: event.geolocation,
+            address: event.address,
+            startTime: event.startTime,
+            endTime: event.endTime,
+            passcode,
+          }
+
+          // add the creator to the event immediately
+          const user = new Attendee({
+            userId: newEvent.userId,
+            eventId: newEvent.eventId,
+            mode: "admin",
+          });
+
+          await user.save();
+
 
           const info = await UserRepository.getUsernameById(userId);
           sendMail(newEvent, info);
@@ -100,6 +140,15 @@ const EventRepository = () => {
               mode: "user",
             });
 
+            const event = await Event.findOne({ _id: data.eventId });
+
+            if (event) {
+              event.attendants = Number(event.attendants) + 1;
+
+            }
+
+            await event.save();
+
             const addedUser = await user.save();
             return addedUser;
           }
@@ -119,6 +168,15 @@ const EventRepository = () => {
                 eventId: data.eventId,
                 mode: "user",
               });
+
+              const event = await Event.findOne({ _id: data.eventId });
+
+              if (event) {
+                event.attendants = Number(event.attendants) + 1;
+
+              }
+
+              await event.save();
 
               const addedUser = await user.save();
               return addedUser;
@@ -149,12 +207,12 @@ const EventRepository = () => {
   };
 
   const getAllEvents = async () => {
-    let events = [];
     try {
+      let events = [];
       const event = await Event.find({
         isPublic: Boolean(PublicConstants.PUBLIC_TRUE),
         status: StatusConstants.STATUS_ACTIVE,
-      });
+      }).populate("userId", "name email image");
       events.push(...event);
       return events;
     } catch (error) {

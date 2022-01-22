@@ -48,9 +48,9 @@ const userLoginOpts = {
         password: { type: "string" },
       },
     },
-    response: {
-      200: userResponse,
-    },
+    // response: {
+    //   200: userResponse,
+    // },
   },
   handler: (req, res) => UserControllerHandler.loginUser(req, res),
 };

@@ -20,8 +20,10 @@
   "homepage": "https://github.com/teb111/EventsApp#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "fastify": "^3.25.0",
+    "fastify-cors": "^6.0.2",
     "fastify-swagger": "^4.12.6",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.2",

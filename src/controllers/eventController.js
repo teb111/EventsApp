@@ -30,7 +30,7 @@ const eventController = (serviceContainer) => {
           return errorResponse(res, ResponseMsg.ERROR.ERROR_MISSING_FIELD, 400);
         } else {
           if (isPublic === PublicConstants.PUBLIC_FALSE) {
-            const { visibility, attendants, passcode } = req.body;
+
 
             const data = {
               title,
@@ -40,9 +40,8 @@ const eventController = (serviceContainer) => {
               startTime,
               endTime,
               userId: req.user._id,
-              visibility,
-              attendants,
-              passcode,
+
+
             };
             const result = await serviceContainer.eventService.newEvent(data);
             return successResponse(res, result);

@@ -36,13 +36,12 @@ const createEventOpts = {
         userId: { type: "string" },
         title: { type: "string" },
         isPublic: { type: "string" },
-        passcode: { type: "string" },
         geolocation: { type: "string" },
         address: { type: "string" },
         startTime: { type: "string" },
         endTime: { type: "string" },
         visibility: { type: "string" },
-        attendants: { type: "string" },
+
       },
     },
     response: {

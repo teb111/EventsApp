@@ -4,7 +4,7 @@ const errorResponse = (res, error = {}, statusCode = 500) => {
     success: false,
     error: {
       statusCode,
-      error: error instanceof Error ? error.message : error,
+      message: error instanceof Error ? error.message : error,
     },
   });
 };

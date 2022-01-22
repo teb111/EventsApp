@@ -1,7 +1,7 @@
 var nodemailer = require("nodemailer");
 
 const sendMail = (event, info) => {
-  const { title, geolocation, address, startTime, endTime } = event;
+  const { title, geolocation, address, startTime, endTime, passcode } = event;
 
   const { email, userName } = info;
 
@@ -58,6 +58,9 @@ const sendMail = (event, info) => {
        <div>
       <h4> EndTime: ${endTime} </h4>
     </div>
+    <div>
+    <h4> Passcode: ${passcode} </h4>
+  </div>
 
     
       

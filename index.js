@@ -16,6 +16,13 @@ fastify.register(require("fastify-swagger"), {
   },
 });
 
+//cors
+// fastify.register(require("fastify-cors"), {
+//   // put your options here
+//   origin: "*",
+//   methods: ["GET", "POST"],
+// });
+
 // routes
 fastify.register(require("./src/routes/userRoutes.js"));
 fastify.register(require("./src/routes/eventRoutes.js"));
