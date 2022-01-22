@@ -1,7 +1,9 @@
 const { UserConstants, StatusConstants } = require("../constants/constants");
 const Contact = require("../models/Contact");
 const ResponseMsg = require("../response/message");
+
 const UserRepository = require("../repositories/userRepository");
+
 
 const contactRepository = () => {
   const addFriend = async (data, friendId) => {
@@ -138,6 +140,7 @@ const contactRepository = () => {
     }
   };
 
+
   const allContacts = async (data) => {
     try {
       let friends = [];
@@ -214,7 +217,7 @@ const contactRepository = () => {
     friendRequestRespond,
     allContacts,
     allFriendRequests,
-  };
+
 };
 
 module.exports = contactRepository();

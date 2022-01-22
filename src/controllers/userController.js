@@ -193,8 +193,10 @@ const userController = (serviceContainer) => {
     resetUserPassword,
     addFriend,
     respondFriend,
+
     getContacts,
     friendRequests,
+
   };
 };
 

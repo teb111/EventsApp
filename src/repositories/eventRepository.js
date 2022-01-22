@@ -8,7 +8,9 @@ const {
   StatusConstants,
   PublicConstants,
 } = require("../constants/constants.js");
+
 const generatePassword = require("../utils/generatePassword.js");
+
 
 const EventRepository = () => {
   const createEvent = async (options) => {
@@ -208,11 +210,15 @@ const EventRepository = () => {
 
   const getAllEvents = async () => {
     try {
+
       let events = [];
       const event = await Event.find({
         isPublic: Boolean(PublicConstants.PUBLIC_TRUE),
         status: StatusConstants.STATUS_ACTIVE,
       }).populate("userId", "name email image");
+
+  
+
       events.push(...event);
       return events;
     } catch (error) {

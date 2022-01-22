@@ -109,6 +109,7 @@ const userService = () => {
     }
   };
 
+
   const fetchContacts = async (data) => {
     try {
       const contacts = await ContactRepository.allContacts(data);
@@ -135,6 +136,7 @@ const userService = () => {
     }
   };
 
+
   return {
     addUser,
     authUser,
@@ -142,8 +144,10 @@ const userService = () => {
     resetPassword,
     sendFriendRequest,
     requestRespond,
+
     fetchContacts,
     getFriendRequests,
+
   };
 };
 
