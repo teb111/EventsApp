@@ -2,14 +2,21 @@ const { UserConstants, StatusConstants } = require("../constants/constants");
 const Contact = require("../models/Contact");
 const ResponseMsg = require("../response/message");
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49394614e4d868651fc487a03d61eeef3f1665d9
 const UserRepository = require("../repositories/userRepository");
 
 =======
 
+<<<<<<< HEAD
 const UserRepository = require("../repositories/userRepository");
 
 
 >>>>>>> 0413bd81fd810d5da16a33f68396acad2080a98e
+=======
+>>>>>>> 49394614e4d868651fc487a03d61eeef3f1665d9
 const contactRepository = () => {
   const addFriend = async (data, friendId) => {
     try {
@@ -156,7 +163,10 @@ const contactRepository = () => {
   };
 
 
+<<<<<<< HEAD
 >>>>>>> 0413bd81fd810d5da16a33f68396acad2080a98e
+=======
+>>>>>>> 49394614e4d868651fc487a03d61eeef3f1665d9
   const allContacts = async (data) => {
     try {
       let friends = [];
@@ -242,10 +252,14 @@ const contactRepository = () => {
     allContacts,
     allFriendRequests,
 <<<<<<< HEAD
+<<<<<<< HEAD
   };
 =======
 
 >>>>>>> 0413bd81fd810d5da16a33f68396acad2080a98e
+=======
+
+>>>>>>> 49394614e4d868651fc487a03d61eeef3f1665d9
 };
 
 module.exports = contactRepository();

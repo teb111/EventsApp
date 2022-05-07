@@ -35,9 +35,13 @@ function userRoutes(fastify, options, done) {
   );
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 0413bd81fd810d5da16a33f68396acad2080a98e
+=======
+
+>>>>>>> 49394614e4d868651fc487a03d61eeef3f1665d9
   // get User Contacts/friends
   fastify.get(
     "/api/user/contacts/:status",
@@ -50,9 +54,13 @@ function userRoutes(fastify, options, done) {
     UserControllerHandler.friendRequests(req, res)
   );
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 0413bd81fd810d5da16a33f68396acad2080a98e
+=======
+
+>>>>>>> 49394614e4d868651fc487a03d61eeef3f1665d9
 
   done();
 }

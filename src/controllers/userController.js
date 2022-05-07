@@ -157,9 +157,12 @@ const userController = (serviceContainer) => {
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 0413bd81fd810d5da16a33f68396acad2080a98e
+=======
+>>>>>>> 49394614e4d868651fc487a03d61eeef3f1665d9
   const getContacts = async (req, res) => {
     try {
       if (req.user._id && req.params.status) {
@@ -191,9 +194,12 @@ const userController = (serviceContainer) => {
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 0413bd81fd810d5da16a33f68396acad2080a98e
+=======
+>>>>>>> 49394614e4d868651fc487a03d61eeef3f1665d9
   return {
     registerUser,
     loginUser,
@@ -202,14 +208,21 @@ const userController = (serviceContainer) => {
     addFriend,
     respondFriend,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49394614e4d868651fc487a03d61eeef3f1665d9
     getContacts,
     friendRequests,
 =======
 
+<<<<<<< HEAD
     getContacts,
     friendRequests,
 
 >>>>>>> 0413bd81fd810d5da16a33f68396acad2080a98e
+=======
+>>>>>>> 49394614e4d868651fc487a03d61eeef3f1665d9
   };
 };
 
