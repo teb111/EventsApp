@@ -156,6 +156,10 @@ const userController = (serviceContainer) => {
     }
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0413bd81fd810d5da16a33f68396acad2080a98e
   const getContacts = async (req, res) => {
     try {
       if (req.user._id && req.params.status) {
@@ -186,6 +190,10 @@ const userController = (serviceContainer) => {
     }
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0413bd81fd810d5da16a33f68396acad2080a98e
   return {
     registerUser,
     loginUser,
@@ -193,8 +201,15 @@ const userController = (serviceContainer) => {
     resetUserPassword,
     addFriend,
     respondFriend,
+<<<<<<< HEAD
     getContacts,
     friendRequests,
+=======
+
+    getContacts,
+    friendRequests,
+
+>>>>>>> 0413bd81fd810d5da16a33f68396acad2080a98e
   };
 };
 

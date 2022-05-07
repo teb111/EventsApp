@@ -31,7 +31,6 @@ const eventController = (serviceContainer) => {
         } else {
           if (isPublic === PublicConstants.PUBLIC_FALSE) {
 
-
             const data = {
               title,
               isPublic,
