@@ -15,7 +15,7 @@ const ReviewRepository = () => {
       const newReview = await review.save();
       return newReview;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -33,7 +33,7 @@ const ReviewRepository = () => {
       }
       return review;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 

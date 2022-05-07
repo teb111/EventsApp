@@ -10,11 +10,11 @@ const userService = () => {
   const addUser = async (name, email, password, image) => {
     try {
       if (!validateEmail(email)) {
-        throw new Error(ResponseMsg.ERROR.ERROR_INVALID_EMAIL);
+        throw (ResponseMsg.ERROR.ERROR_INVALID_EMAIL);
       } else if (password.length < 6) {
-        throw new Error(ResponseMsg.ERROR.ERROR_INVALID_PASSWORD);
+        throw (ResponseMsg.ERROR.ERROR_INVALID_PASSWORD);
       } else if (name.length < 3) {
-        throw new Error(ResponseMsg.ERROR.ERROR_INVALID_NAME);
+        throw (ResponseMsg.ERROR.ERROR_INVALID_NAME);
       } else {
         const user = await UserRepository.createUser(
           name,
@@ -25,7 +25,7 @@ const userService = () => {
         return user;
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -34,19 +34,19 @@ const userService = () => {
       const result = await UserRepository.userLogin(email, password);
       return result;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
   const passwordResetLink = async (email) => {
     try {
       if (!validateEmail(email)) {
-        throw new Error(ResponseMsg.Error.ERROR_INVALID_EMAIL);
+        throw (ResponseMsg.Error.ERROR_INVALID_EMAIL);
       }
       const result = await UserRepository.sendPasswordLink(email);
       return result;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -61,7 +61,7 @@ const userService = () => {
         return result;
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -80,10 +80,10 @@ const userService = () => {
         );
         return result;
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
+        throw (ResponseMsg.ERROR.ERROR_NO_USER);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -102,10 +102,10 @@ const userService = () => {
         );
         return result;
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
+        throw (ResponseMsg.ERROR.ERROR_NO_USER);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -115,10 +115,10 @@ const userService = () => {
       if (contacts) {
         return contacts;
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_WENT_WRONG);
+        throw (ResponseMsg.ERROR.ERROR_WENT_WRONG);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -128,10 +128,10 @@ const userService = () => {
       if (contacts) {
         return contacts;
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_WENT_WRONG);
+        throw (ResponseMsg.ERROR.ERROR_WENT_WRONG);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 

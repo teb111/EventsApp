@@ -9,6 +9,7 @@ const {
   PublicConstants,
 } = require("../constants/constants.js");
 const generatePassword = require("../utils/generatePassword.js");
+const increaseAttendants = require("../utils/increaseAttendants.js");
 
 const EventRepository = () => {
   const createEvent = async (options) => {
@@ -27,7 +28,7 @@ const EventRepository = () => {
         status: StatusConstants.STATUS_ACTIVE,
       });
       if (checkSimilarEventName) {
-        throw new Error(ResponseMsg.ERROR.ERROR_EVENT_SAME_TITLE);
+        throw (ResponseMsg.ERROR.ERROR_EVENT_SAME_TITLE);
       } else {
         if (isPublic === PublicConstants.PUBLIC_TRUE) {
           const event = new Event({
@@ -114,7 +115,7 @@ const EventRepository = () => {
         }
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -132,7 +133,7 @@ const EventRepository = () => {
             eventId: data.eventId,
           });
           if (inEvent) {
-            throw new Error(ResponseMsg.ERROR.ERROR_IN_EVENT);
+            throw (ResponseMsg.ERROR.ERROR_IN_EVENT);
           } else {
             const user = new Attendee({
               userId: data.userId,
@@ -140,15 +141,7 @@ const EventRepository = () => {
               mode: "user",
             });
 
-            const event = await Event.findOne({ _id: data.eventId });
-
-            if (event) {
-              event.attendants = Number(event.attendants) + 1;
-
-            }
-
-            await event.save();
-
+            increaseAttendants(data.eventId);
             const addedUser = await user.save();
             return addedUser;
           }
@@ -161,7 +154,7 @@ const EventRepository = () => {
               eventId: data.eventId,
             });
             if (inEvent) {
-              throw new Error(ResponseMsg.ERROR.ERROR_IN_EVENT);
+              throw (ResponseMsg.ERROR.ERROR_IN_EVENT);
             } else {
               const user = new Attendee({
                 userId: data.userId,
@@ -169,27 +162,20 @@ const EventRepository = () => {
                 mode: "user",
               });
 
-              const event = await Event.findOne({ _id: data.eventId });
-
-              if (event) {
-                event.attendants = Number(event.attendants) + 1;
-
-              }
-
-              await event.save();
+              increaseAttendants(data.eventId);
 
               const addedUser = await user.save();
               return addedUser;
             }
           } else {
-            throw new Error(ResponseMsg.ERROR.ERROR_INCORRECT_PASSCODE);
+            throw (ResponseMsg.ERROR.ERROR_INCORRECT_PASSCODE);
           }
         }
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_NO_EVENT);
+        throw (ResponseMsg.ERROR.ERROR_NO_EVENT);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -202,7 +188,7 @@ const EventRepository = () => {
 
       return event;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -216,7 +202,7 @@ const EventRepository = () => {
       events.push(...event);
       return events;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 

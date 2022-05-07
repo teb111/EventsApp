@@ -51,7 +51,7 @@ const contactRepository = () => {
         return newRequest;
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -134,7 +134,7 @@ const contactRepository = () => {
         return newFriend;
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -187,7 +187,7 @@ const contactRepository = () => {
         return friends;
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -205,7 +205,7 @@ const contactRepository = () => {
 
       return friends;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 

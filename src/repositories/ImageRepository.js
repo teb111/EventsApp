@@ -15,7 +15,7 @@ const ImageRepository = () => {
       const createdImage = await newImage.save();
       return createdImage;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 

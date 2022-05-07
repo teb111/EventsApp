@@ -9,7 +9,7 @@ const userRepository = () => {
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-      throw new Error(ResponseMsg.ERROR.ERROR_USER_EXISTS);
+      throw (ResponseMsg.ERROR.ERROR_USER_EXISTS);
     }
 
     try {
@@ -31,7 +31,7 @@ const userRepository = () => {
         return createdUser;
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -49,10 +49,10 @@ const userRepository = () => {
         };
         return result;
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_INVALID_LOGIN_CREDENTIALS);
+        throw (ResponseMsg.ERROR.ERROR_INVALID_LOGIN_CREDENTIALS);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -69,10 +69,10 @@ const userRepository = () => {
         passwordResetMail(createdUser);
         return ResponseMsg.SUCCESS.SUCCESS_PASSWORD_RESET_LINK;
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
+        throw (ResponseMsg.ERROR.ERROR_NO_USER);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -88,10 +88,10 @@ const userRepository = () => {
 
         return ResponseMsg.SUCCESS.SUCCESS_PASSWORD_CHANGED;
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
+        throw (ResponseMsg.ERROR.ERROR_NO_USER);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -105,7 +105,7 @@ const userRepository = () => {
       };
       return info;
     } else {
-      throw new Error(ResponseMsg.ERROR.ERROR_NO_USER);
+      throw (ResponseMsg.ERROR.ERROR_NO_USER);
     }
   };
 
@@ -114,7 +114,7 @@ const userRepository = () => {
       const result = await User.findOne({ email });
       return result;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 

@@ -9,7 +9,7 @@ const AttendeeRepository = () => {
       });
       return attendee;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 

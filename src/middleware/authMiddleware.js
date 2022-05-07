@@ -18,7 +18,7 @@ const protect = async (req, reply, next) => {
         status: StatusConstants.STATUS_ACTIVE,
       }).select("-password");
     } catch (err) {
-      errorResponse(reply, "Not Authorized token failed, Please Log in Again");
+      errorResponse(reply, "Not Authorized token failed, Please Log in Again", 401);
     }
   }
 };

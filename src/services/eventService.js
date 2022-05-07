@@ -12,7 +12,7 @@ const eventService = () => {
       const event = await EventRepository.createEvent(options);
       return event;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -23,10 +23,10 @@ const eventService = () => {
         const event = await EventRepository.eventJoin(data);
         return event;
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_LOG_IN);
+        throw (ResponseMsg.ERROR.ERROR_LOG_IN);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -41,16 +41,16 @@ const eventService = () => {
           if (image) {
             return image;
           } else {
-            throw new Error(ResponseMsg.ERROR.ERROR_WENT_WRONG);
+            throw (ResponseMsg.ERROR.ERROR_WENT_WRONG);
           }
         } else {
-          throw new Error(ResponseMsg.ERROR.ERROR_EVENT_ACCESS_DENIED);
+          throw (ResponseMsg.ERROR.ERROR_EVENT_ACCESS_DENIED);
         }
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_EVENT_INACTIVE);
+        throw (ResponseMsg.ERROR.ERROR_EVENT_INACTIVE);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -65,16 +65,16 @@ const eventService = () => {
           if (review) {
             return review;
           } else {
-            throw new Error(ResponseMsg.ERROR.ERROR_WENT_WRONG);
+            throw (ResponseMsg.ERROR.ERROR_WENT_WRONG);
           }
         } else {
-          throw new Error(ResponseMsg.ERROR.ERROR_EVENT_ACCESS_DENIED);
+          throw (ResponseMsg.ERROR.ERROR_EVENT_ACCESS_DENIED);
         }
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_EVENT_INACTIVE);
+        throw (ResponseMsg.ERROR.ERROR_EVENT_INACTIVE);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -88,13 +88,13 @@ const eventService = () => {
           const comments = await ReviewRepository.getImageReviews(data);
           return comments;
         } else {
-          throw new Error(ResponseMsg.ERROR.ERROR_EVENT_ACCESS_DENIED);
+          throw (ResponseMsg.ERROR.ERROR_EVENT_ACCESS_DENIED);
         }
       } else {
-        throw new Error(ResponseMsg.ERROR.ERROR_EVENT_INACTIVE);
+        throw (ResponseMsg.ERROR.ERROR_EVENT_INACTIVE);
       }
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -103,7 +103,7 @@ const eventService = () => {
       const events = await EventRepository.getAllEvents();
       return events;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 
@@ -112,7 +112,7 @@ const eventService = () => {
       const reaction = await ReactionRepository.reactionAdd(data);
       return reaction;
     } catch (error) {
-      throw new Error(error);
+      throw (error);
     }
   };
 

@@ -1,14 +1,11 @@
+const crypto = require("crypto").webcrypto;
+
 const generatePassword = () => {
-    let chars = "0123456789abcdefghijklmnopqrstuvwxyz";
-    let passwordLength = 6;
-    let password = "";
-
-    for (var i = 0; i <= passwordLength; i++) {
-        var randomNumber = Math.floor(Math.random() * chars.length);
-        password += chars.substring(randomNumber, randomNumber + 1);
-    }
-
-    return password
+    let password;
+    const randomPass = crypto.getRandomValues(new Uint8Array(8));
+    let newPass = randomPass.toString()
+    password = newPass.replace(/[^\w\s]/gi, '').slice(0, 8);
+    return password;
 }
 
 module.exports = generatePassword
